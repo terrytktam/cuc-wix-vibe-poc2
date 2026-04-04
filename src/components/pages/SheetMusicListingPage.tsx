@@ -1,0 +1,133 @@
+import { useEffect, useState } from 'react';
+import { Link, useParams } from 'react-router-dom';
+import { motion } from 'framer-motion';
+import { Image } from '@/components/ui/image';
+import { useCart, useCurrency, formatPrice, DEFAULT_CURRENCY } from '@/integrations';
+import Header from '@/components/Header';
+import Footer from '@/components/Footer';
+import Cart from '@/components/Cart';
+import { BaseCrudService } from '@/integrations';
+import { SheetMusicCatalog } from '@/entities';
+
+export default function SheetMusicListingPage() {
+  const { series } = useParams<{ series: string }>();
+  const [scores, setScores] = useState<SheetMusicCatalog[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const { addingItemId, actions } = useCart();
+  const { currency } = useCurrency();
+
+  useEffect(() => {
+    loadScores();
+  }, [series]);
+
+  const loadScores = async () => {
+    try {
+      const { items } = await BaseCrudService.getAll<SheetMusicCatalog>('scores');
+      const filteredScores = items.filter(score => 
+        !score.isHidden && 
+        score.series?.toLowerCase() === series?.toLowerCase()
+      );
+      setScores(filteredScores);
+    } catch (error) {
+      console.error('Error loading scores:', error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const getSeriesTitle = () => {
+    switch (series) {
+      case 'choral':
+        return 'CU Chorus Choral Series';
+      case 'cantopop':
+        return 'CU Chorus Cantopop Series';
+      case 'chorphillia':
+        return 'Chorphillia';
+      default:
+        return 'Sheet Music';
+    }
+  };
+
+  return (
+    <div className="min-h-screen bg-background text-foreground font-paragraph">
+      <Header />
+      
+      <main className="pt-32 pb-32">
+        <div className="max-w-[100rem] mx-auto px-8">
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8 }}
+            className="text-center mb-20"
+          >
+            <h1 className="font-heading text-6xl md:text-7xl lg:text-8xl mb-8 text-foreground">
+              {getSeriesTitle()}
+            </h1>
+            <p className="text-xl md:text-2xl max-w-4xl mx-auto leading-relaxed">
+              Browse our collection of choral scores
+            </p>
+          </motion.div>
+
+          <div className="min-h-[40vh]">
+            {isLoading ? (
+              null
+            ) : scores.length === 0 ? (
+              <div className="text-center py-20">
+                <p className="text-xl">No scores available in this series</p>
+              </div>
+            ) : (
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-12">
+                {scores.map((score, index) => {
+                  const isAdding = addingItemId === score._id;
+                  
+                  return (
+                    <motion.div
+                      key={score._id}
+                      initial={{ opacity: 0, y: 30 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ duration: 0.6, delay: index * 0.05 }}
+                    >
+                      <Link to={`/score/${score._id}`} className="group block">
+                        <div className="relative aspect-[3/4] mb-4 overflow-hidden">
+                          <Image
+                            src={score.itemImage || 'https://static.wixstatic.com/media/c418c8_ccc8f6635f95461eb322a9b5ed034fba~mv2.png?originWidth=384&originHeight=512'}
+                            alt={score.itemName || 'Sheet Music'}
+                            className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                          />
+                        </div>
+                        <h2 className="font-heading text-2xl mb-2 text-foreground group-hover:text-primary transition-colors duration-300">
+                          {score.itemName}
+                        </h2>
+                        {score.voicing && (
+                          <p className="text-sm text-foreground opacity-70 mb-2">{score.voicing}</p>
+                        )}
+                      </Link>
+                      
+                      <div className="flex items-center justify-between mt-4">
+                        <span className="text-xl font-heading text-primary">
+                          {formatPrice(score.itemPrice || 0, currency ?? DEFAULT_CURRENCY)}
+                        </span>
+                        <button
+                          onClick={() => actions.addToCart({ 
+                            collectionId: 'scores', 
+                            itemId: score._id 
+                          })}
+                          disabled={isAdding}
+                          className="bg-primary text-primary-foreground px-4 py-2 text-sm font-medium transition-all duration-300 hover:bg-opacity-90 disabled:opacity-50"
+                        >
+                          {isAdding ? 'Adding...' : 'Add to Cart'}
+                        </button>
+                      </div>
+                    </motion.div>
+                  );
+                })}
+              </div>
+            )}
+          </div>
+        </div>
+      </main>
+
+      <Footer />
+    </div>
+  );
+}
