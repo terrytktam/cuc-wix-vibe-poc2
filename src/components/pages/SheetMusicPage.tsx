@@ -3,24 +3,33 @@ import { motion } from 'framer-motion';
 import { Image } from '@/components/ui/image';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
+import { useLanguageStore } from '@/lib/languageStore';
 
 export default function SheetMusicPage() {
+  const { language } = useLanguageStore();
+
   const series = [
     {
-      title: 'CU Chorus Choral Series',
-      description: 'Classical and contemporary choral works',
+      titleEn: 'CU Chorus Choral Series',
+      titleZh: '中大合唱系列',
+      descriptionEn: 'Classical and contemporary choral works',
+      descriptionZh: '古典和當代合唱作品',
       path: '/sheet-music/choral',
       image: 'https://static.wixstatic.com/media/c418c8_55c5d404387d4ae1a62dd40e9b27db78~mv2.png?originWidth=768&originHeight=960'
     },
     {
-      title: 'CU Chorus Cantopop Series',
-      description: 'Popular Cantonese songs arranged for choir',
+      titleEn: 'CU Chorus Cantopop Series',
+      titleZh: '中大粵語流行曲系列',
+      descriptionEn: 'Popular Cantonese songs arranged for choir',
+      descriptionZh: '為合唱團編排的流行粵語歌曲',
       path: '/sheet-music/cantopop',
       image: 'https://static.wixstatic.com/media/c418c8_72a94c0d83964802a8ca24ef13a2f6a5~mv2.png?originWidth=768&originHeight=960'
     },
     {
-      title: 'Chorphillia',
-      description: 'Specialized choral arrangements',
+      titleEn: 'Chorphillia',
+      titleZh: 'Chorphillia',
+      descriptionEn: 'Specialized choral arrangements',
+      descriptionZh: '專業合唱編排',
       path: '/sheet-music/chorphillia',
       image: 'https://static.wixstatic.com/media/c418c8_8ac11f4196484e559c9fc9cd900ddfa9~mv2.png?originWidth=768&originHeight=960'
     }
@@ -39,10 +48,10 @@ export default function SheetMusicPage() {
             className="text-center mb-20"
           >
             <h1 className="font-heading text-6xl md:text-7xl lg:text-8xl mb-8 text-foreground">
-              Sheet Music
+              {language === 'en' ? 'Sheet Music' : '樂譜'}
             </h1>
             <p className="text-xl md:text-2xl max-w-4xl mx-auto leading-relaxed">
-              Browse our collection of choral arrangements and scores
+              {language === 'en' ? 'Browse our collection of choral arrangements and scores' : '瀏覽我們的合唱編排和樂譜集合'}
             </p>
           </motion.div>
 
@@ -58,15 +67,15 @@ export default function SheetMusicPage() {
                   <div className="relative aspect-[4/5] mb-6 overflow-hidden">
                     <Image
                       src={item.image}
-                      alt={item.title}
+                      alt={language === 'en' ? item.titleEn : item.titleZh}
                       className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
                     />
                   </div>
                   <h2 className="font-heading text-4xl mb-4 text-foreground group-hover:text-primary transition-colors duration-300">
-                    {item.title}
+                    {language === 'en' ? item.titleEn : item.titleZh}
                   </h2>
                   <p className="text-lg leading-relaxed text-foreground opacity-80">
-                    {item.description}
+                    {language === 'en' ? item.descriptionEn : item.descriptionZh}
                   </p>
                 </Link>
               </motion.div>

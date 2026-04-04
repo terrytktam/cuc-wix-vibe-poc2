@@ -5,37 +5,48 @@ import { motion, useScroll, useTransform, useSpring } from 'framer-motion';
 import { Image } from '@/components/ui/image';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
-
-// --- CANONICAL DATA SOURCES ---
-// Preserved exactly from the original code's intent and structure.
-const EXPLORE_ITEMS = [
-  {
-    title: 'About Us',
-    description: 'Learn about our mission, vision, and team',
-    link: '/about',
-    image: 'https://static.wixstatic.com/media/c418c8_660de16e84c4473a90609281ed302805~mv2.png?originWidth=896&originHeight=1152'
-  },
-  {
-    title: 'Performances',
-    description: 'Discover our upcoming and past events',
-    link: '/upcoming-events',
-    image: 'https://static.wixstatic.com/media/c418c8_19a32caf47bf4054bcd5d4d5caf7b2b7~mv2.png?originWidth=896&originHeight=1152'
-  },
-  {
-    title: 'Sheet Music',
-    description: 'Browse our choral series catalog',
-    link: '/sheet-music',
-    image: 'https://static.wixstatic.com/media/c418c8_94d3cdad7f8e4efaa76ae536a733c45c~mv2.png?originWidth=896&originHeight=1152'
-  },
-  {
-    title: 'Recordings',
-    description: 'Listen to our albums and recordings',
-    link: '/recordings',
-    image: 'https://static.wixstatic.com/media/c418c8_aad3b75f2c73428ab495993e8376b425~mv2.png?originWidth=896&originHeight=1152'
-  }
-];
+import { useLanguageStore } from '@/lib/languageStore';
 
 export default function HomePage() {
+  const { language } = useLanguageStore();
+
+  // --- CANONICAL DATA SOURCES ---
+  // Preserved exactly from the original code's intent and structure.
+  const EXPLORE_ITEMS = [
+    {
+      titleEn: 'About Us',
+      titleZh: '關於我們',
+      descriptionEn: 'Learn about our mission, vision, and team',
+      descriptionZh: '了解我們的使命、願景和團隊',
+      link: '/about',
+      image: 'https://static.wixstatic.com/media/c418c8_660de16e84c4473a90609281ed302805~mv2.png?originWidth=896&originHeight=1152'
+    },
+    {
+      titleEn: 'Performances',
+      titleZh: '演出及活動',
+      descriptionEn: 'Discover our upcoming and past events',
+      descriptionZh: '發現我們即將舉行和過往的活動',
+      link: '/upcoming-events',
+      image: 'https://static.wixstatic.com/media/c418c8_19a32caf47bf4054bcd5d4d5caf7b2b7~mv2.png?originWidth=896&originHeight=1152'
+    },
+    {
+      titleEn: 'Sheet Music',
+      titleZh: '樂譜',
+      descriptionEn: 'Browse our choral series catalog',
+      descriptionZh: '瀏覽我們的合唱系列目錄',
+      link: '/sheet-music',
+      image: 'https://static.wixstatic.com/media/c418c8_94d3cdad7f8e4efaa76ae536a733c45c~mv2.png?originWidth=896&originHeight=1152'
+    },
+    {
+      titleEn: 'Recordings',
+      titleZh: '錄音',
+      descriptionEn: 'Listen to our albums and recordings',
+      descriptionZh: '聆聽我們的專輯和錄音',
+      link: '/recordings',
+      image: 'https://static.wixstatic.com/media/c418c8_aad3b75f2c73428ab495993e8376b425~mv2.png?originWidth=896&originHeight=1152'
+    }
+  ];
+
   // --- SCROLL & MOTION HOOKS ---
   // Hero Parallax
   const heroRef = useRef<HTMLElement>(null);
@@ -131,13 +142,17 @@ export default function HomePage() {
               to="/upcoming-events"
               className="group relative px-10 py-4 overflow-hidden border border-primary bg-primary text-background transition-all duration-500 hover:bg-transparent hover:text-primary"
             >
-              <span className="relative z-10 font-medium tracking-wide uppercase text-sm">Upcoming Events</span>
+              <span className="relative z-10 font-medium tracking-wide uppercase text-sm">
+                {language === 'en' ? 'Upcoming Events' : '即將舉行'}
+              </span>
             </Link>
             <Link
               to="/about"
               className="group relative px-10 py-4 overflow-hidden border border-foreground/30 text-foreground transition-all duration-500 hover:border-primary hover:text-primary"
             >
-              <span className="relative z-10 font-medium tracking-wide uppercase text-sm">Discover Our Story</span>
+              <span className="relative z-10 font-medium tracking-wide uppercase text-sm">
+                {language === 'en' ? 'Discover Our Story' : '發現我們的故事'}
+              </span>
             </Link>
           </motion.div>
         </div>
@@ -149,7 +164,9 @@ export default function HomePage() {
           transition={{ delay: 1.5, duration: 1 }}
           className="absolute bottom-12 left-1/2 -translate-x-1/2 flex flex-col items-center gap-4 z-20"
         >
-          <span className="text-xs tracking-[0.2em] uppercase text-foreground/50">Scroll</span>
+          <span className="text-xs tracking-[0.2em] uppercase text-foreground/50">
+            {language === 'en' ? 'Scroll' : '滾動'}
+          </span>
           <div className="w-[1px] h-16 bg-foreground/20 overflow-hidden">
             <motion.div 
               animate={{ y: ["-100%", "100%"] }}
@@ -175,14 +192,17 @@ export default function HomePage() {
               className="text-center max-w-6xl mx-auto"
             >
               <h2 className="font-heading text-5xl md:text-7xl lg:text-8xl mb-12 text-foreground leading-tight">
-                Dedicated to Promoting <br />
-                <span className="italic text-primary">the Art of Choral Music</span>
+                {language === 'en' ? 'Dedicated to Promoting' : '致力於推廣'} <br />
+                <span className="italic text-primary">
+                  {language === 'en' ? 'the Art of Choral Music' : '合唱藝術'}
+                </span>
               </h2>
               <div className="w-24 h-[1px] bg-primary mx-auto mb-12" />
               <p className="text-xl md:text-3xl leading-relaxed font-light text-foreground/80 max-w-4xl mx-auto">
-                CU Chorus is one of the best local university choirs in Hong Kong, renowned for
-                high-quality performances and innovative programmes that inspire music lovers
-                throughout the region.
+                {language === 'en' 
+                  ? 'CU Chorus is one of the best local university choirs in Hong Kong, renowned for high-quality performances and innovative programmes that inspire music lovers throughout the region.'
+                  : '中大合唱團是香港最優秀的大學合唱團之一，以高質量的演出和創新的計劃而聞名，激勵著整個地區的音樂愛好者。'
+                }
               </p>
             </motion.div>
           </div>
@@ -197,13 +217,18 @@ export default function HomePage() {
         <div className="max-w-[100rem] mx-auto px-6 md:px-12">
           <div className="flex flex-col md:flex-row justify-between items-end mb-24 gap-8">
             <div>
-              <span className="text-primary tracking-[0.2em] text-sm uppercase mb-4 block">Our Repertoire</span>
+              <span className="text-primary tracking-[0.2em] text-sm uppercase mb-4 block">
+                {language === 'en' ? 'Our Repertoire' : '我們的曲目'}
+              </span>
               <h2 className="font-heading text-5xl md:text-7xl text-foreground">
-                Explore
+                {language === 'en' ? 'Explore' : '探索'}
               </h2>
             </div>
             <p className="text-foreground/60 max-w-md text-lg font-light">
-              Delve into our rich history, upcoming performances, and extensive catalog of choral works.
+              {language === 'en'
+                ? 'Delve into our rich history, upcoming performances, and extensive catalog of choral works.'
+                : '深入了解我們豐富的歷史、即將舉行的演出和廣泛的合唱作品目錄。'
+              }
             </p>
           </div>
           
@@ -211,10 +236,12 @@ export default function HomePage() {
             {EXPLORE_ITEMS.map((item, index) => {
               // Create a staggered layout effect
               const isEven = index % 2 === 0;
+              const title = language === 'en' ? item.titleEn : item.titleZh;
+              const description = language === 'en' ? item.descriptionEn : item.descriptionZh;
               
               return (
                 <motion.div
-                  key={item.title}
+                  key={item.link}
                   initial={{ opacity: 0, y: 50 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true, margin: "-100px" }}
@@ -228,7 +255,7 @@ export default function HomePage() {
                       
                       <Image
                         src={item.image}
-                        alt={item.title}
+                        alt={title}
                         className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110 grayscale-[20%] group-hover:grayscale-0"
                       />
                       
@@ -240,10 +267,10 @@ export default function HomePage() {
                     <div className="flex items-start justify-between">
                       <div>
                         <h3 className="font-heading text-4xl mb-4 text-foreground group-hover:text-primary transition-colors duration-300">
-                          {item.title}
+                          {title}
                         </h3>
                         <p className="text-lg leading-relaxed text-foreground/70 font-light max-w-sm">
-                          {item.description}
+                          {description}
                         </p>
                       </div>
                       
@@ -293,19 +320,24 @@ export default function HomePage() {
             transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
             className="max-w-4xl mx-auto"
           >
-            <span className="text-primary tracking-[0.2em] text-sm uppercase mb-6 block">Join Our Journey</span>
+            <span className="text-primary tracking-[0.2em] text-sm uppercase mb-6 block">
+              {language === 'en' ? 'Join Our Journey' : '加入我們的旅程'}
+            </span>
             <h2 className="font-heading text-6xl md:text-8xl mb-10 text-foreground">
-              Support Our Mission
+              {language === 'en' ? 'Support Our Mission' : '支持我們的使命'}
             </h2>
             <p className="text-xl md:text-2xl mb-16 leading-relaxed font-light text-foreground/80">
-              Help us continue promoting the art of choral music through sponsorship and support programs. Your contribution ensures the legacy of sound continues for generations.
+              {language === 'en'
+                ? 'Help us continue promoting the art of choral music through sponsorship and support programs. Your contribution ensures the legacy of sound continues for generations.'
+                : '通過贊助和支持計劃幫助我們繼續推廣合唱藝術。您的貢獻確保音樂的遺產代代相傳。'
+              }
             </p>
             
             <Link
               to="/support"
               className="inline-flex items-center justify-center gap-4 bg-primary text-background px-12 py-5 text-lg font-medium tracking-wide uppercase transition-all duration-500 hover:bg-white hover:scale-105"
             >
-              <span>Learn More</span>
+              <span>{language === 'en' ? 'Learn More' : '了解更多'}</span>
               <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                 <line x1="5" y1="12" x2="19" y2="12"></line>
                 <polyline points="12 5 19 12 12 19"></polyline>

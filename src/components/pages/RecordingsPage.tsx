@@ -7,12 +7,14 @@ import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import { BaseCrudService } from '@/integrations';
 import { Recordings } from '@/entities';
+import { useLanguageStore } from '@/lib/languageStore';
 
 export default function RecordingsPage() {
   const [recordings, setRecordings] = useState<Recordings[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const { addingItemId, actions } = useCart();
   const { currency } = useCurrency();
+  const { language } = useLanguageStore();
 
   useEffect(() => {
     loadRecordings();
@@ -42,10 +44,10 @@ export default function RecordingsPage() {
             className="text-center mb-20"
           >
             <h1 className="font-heading text-6xl md:text-7xl lg:text-8xl mb-8 text-foreground">
-              Recordings
+              {language === 'en' ? 'Recordings' : '錄音'}
             </h1>
             <p className="text-xl md:text-2xl max-w-4xl mx-auto leading-relaxed">
-              Explore our collection of albums and recordings
+              {language === 'en' ? 'Explore our collection of albums and recordings' : '探索我們的專輯和錄音集合'}
             </p>
           </motion.div>
 
@@ -54,7 +56,9 @@ export default function RecordingsPage() {
               null
             ) : recordings.length === 0 ? (
               <div className="text-center py-20">
-                <p className="text-xl">No recordings available</p>
+                <p className="text-xl">
+                  {language === 'en' ? 'No recordings available' : '沒有可用的錄音'}
+                </p>
               </div>
             ) : (
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-12">
@@ -96,7 +100,7 @@ export default function RecordingsPage() {
                           disabled={isAdding}
                           className="bg-primary text-primary-foreground px-4 py-2 text-sm font-medium transition-all duration-300 hover:bg-opacity-90 disabled:opacity-50"
                         >
-                          {isAdding ? 'Adding...' : 'Add to Cart'}
+                          {isAdding ? (language === 'en' ? 'Adding...' : '添加中...') : (language === 'en' ? 'Add to Cart' : '加入購物車')}
                         </button>
                       </div>
                     </motion.div>

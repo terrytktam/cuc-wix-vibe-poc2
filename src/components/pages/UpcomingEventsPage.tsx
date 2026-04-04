@@ -7,11 +7,13 @@ import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import { BaseCrudService } from '@/integrations';
 import { Events, Concerts } from '@/entities';
+import { useLanguageStore } from '@/lib/languageStore';
 
 export default function UpcomingEventsPage() {
   const [events, setEvents] = useState<Events[]>([]);
   const [concerts, setConcerts] = useState<Concerts[]>([]);
   const [isLoading, setIsLoading] = useState(true);
+  const { language } = useLanguageStore();
 
   useEffect(() => {
     loadEvents();
@@ -54,10 +56,10 @@ export default function UpcomingEventsPage() {
             className="text-center mb-20"
           >
             <h1 className="font-heading text-6xl md:text-7xl lg:text-8xl mb-8 text-foreground">
-              Upcoming Events
+              {language === 'en' ? 'Upcoming Events' : '即將舉行'}
             </h1>
             <p className="text-xl md:text-2xl max-w-4xl mx-auto leading-relaxed">
-              Join us for our upcoming performances and events
+              {language === 'en' ? 'Join us for our upcoming performances and events' : '加入我們即將舉行的演出和活動'}
             </p>
           </motion.div>
 
@@ -66,14 +68,20 @@ export default function UpcomingEventsPage() {
               null
             ) : allUpcoming.length === 0 ? (
               <div className="text-center py-20">
-                <p className="text-xl">No upcoming events at this time</p>
+                <p className="text-xl">
+                  {language === 'en' ? 'No upcoming events at this time' : '目前沒有即將舉行的活動'}
+                </p>
               </div>
             ) : (
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12">
                 {allUpcoming.map((item, index) => {
                   const isEvent = item.type === 'event';
-                  const title = isEvent ? (item as Events).titleEn : (item as Concerts).titleEn;
-                  const venue = isEvent ? (item as Events).dateTimeVenueEn : (item as Concerts).venueEn;
+                  const titleEn = isEvent ? (item as Events).titleEn : (item as Concerts).titleEn;
+                  const titleZh = isEvent ? (item as Events).titleZh : (item as Concerts).titleZh;
+                  const title = language === 'en' ? titleEn : titleZh;
+                  const venueEn = isEvent ? (item as Events).dateTimeVenueEn : (item as Concerts).venueEn;
+                  const venueZh = isEvent ? (item as Events).dateTimeVenueZh : (item as Concerts).venueZh;
+                  const venue = language === 'en' ? venueEn : venueZh;
                   const id = isEvent ? (item as Events).eventCode : (item as Concerts).code;
                   const date = isEvent ? null : (item as Concerts).date;
                   

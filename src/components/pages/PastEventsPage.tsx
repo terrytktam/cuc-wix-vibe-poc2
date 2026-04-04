@@ -7,11 +7,13 @@ import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import { BaseCrudService } from '@/integrations';
 import { Events, Concerts } from '@/entities';
+import { useLanguageStore } from '@/lib/languageStore';
 
 export default function PastEventsPage() {
   const [events, setEvents] = useState<Events[]>([]);
   const [concerts, setConcerts] = useState<Concerts[]>([]);
   const [isLoading, setIsLoading] = useState(true);
+  const { language } = useLanguageStore();
 
   useEffect(() => {
     loadEvents();

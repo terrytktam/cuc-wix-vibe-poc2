@@ -3,16 +3,16 @@ import { Link, useLocation } from 'react-router-dom';
 import { Menu, X, Facebook, Instagram, Youtube, ShoppingCart } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useCart } from '@/integrations';
+import { useLanguageStore } from '@/lib/languageStore';
 import Cart from '@/components/Cart';
 
 export default function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [language, setLanguage] = useState<'en' | 'zh'>('en');
+  const { language, toggleLanguage } = useLanguageStore();
   const location = useLocation();
   const { itemCount, actions: cartActions } = useCart();
 
   const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
-  const toggleLanguage = () => setLanguage(prev => prev === 'en' ? 'zh' : 'en');
 
   const isActive = (path: string) => location.pathname === path;
 
