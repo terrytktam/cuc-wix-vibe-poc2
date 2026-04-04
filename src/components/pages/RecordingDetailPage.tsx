@@ -9,6 +9,7 @@ import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import { BaseCrudService } from '@/integrations';
 import { Recordings } from '@/entities';
+import { useLanguageStore } from '@/lib/languageStore';
 
 export default function RecordingDetailPage() {
   const { id } = useParams<{ id: string }>();
@@ -16,6 +17,7 @@ export default function RecordingDetailPage() {
   const [isLoading, setIsLoading] = useState(true);
   const { addingItemId, actions } = useCart();
   const { currency } = useCurrency();
+  const { language } = useLanguageStore();
 
   useEffect(() => {
     if (id) {
@@ -49,8 +51,12 @@ export default function RecordingDetailPage() {
               </div>
             ) : !recording ? (
               <div className="text-center py-32">
-                <h1 className="font-heading text-5xl mb-4">Recording Not Found</h1>
-                <p className="text-xl">The recording you're looking for doesn't exist</p>
+                <h1 className="font-heading text-5xl mb-4">
+                  {language === 'en' ? 'Recording Not Found' : '錄音未找到'}
+                </h1>
+                <p className="text-xl">
+                  {language === 'en' ? "The recording you're looking for doesn't exist" : '您要查找的錄音不存在'}
+                </p>
               </div>
             ) : (
               <div className="grid grid-cols-1 lg:grid-cols-2 gap-16">
@@ -79,7 +85,7 @@ export default function RecordingDetailPage() {
                   <div className="space-y-4 mb-8">
                     {recording.releaseYear && (
                       <p className="text-lg">
-                        <span className="text-primary">Release Year:</span> {recording.releaseYear}
+                        <span className="text-primary">{language === 'en' ? 'Release Year' : '發行年份'}:</span> {recording.releaseYear}
                       </p>
                     )}
                     {recording.cucId && (
@@ -94,25 +100,29 @@ export default function RecordingDetailPage() {
                     )}
                   </div>
 
-                  {recording.introductionEn && (
+                  {language === 'en' ? recording.introductionEn : recording.introductionZh || recording.introductionEn ? (
                     <div className="mb-8">
-                      <h2 className="font-heading text-3xl mb-4 text-foreground">About</h2>
+                      <h2 className="font-heading text-3xl mb-4 text-foreground">
+                        {language === 'en' ? 'About' : '關於'}
+                      </h2>
                       <div 
                         className="text-lg leading-relaxed space-y-4"
-                        dangerouslySetInnerHTML={{ __html: recording.introductionEn }}
+                        dangerouslySetInnerHTML={{ __html: language === 'en' ? (recording.introductionEn || '') : (recording.introductionZh || recording.introductionEn || '') }}
                       />
                     </div>
-                  )}
+                  ) : null}
 
-                  {recording.songlistEn && (
+                  {language === 'en' ? recording.songlistEn : recording.songlistZh || recording.songlistEn ? (
                     <div className="mb-8">
-                      <h2 className="font-heading text-3xl mb-4 text-foreground">Track List</h2>
+                      <h2 className="font-heading text-3xl mb-4 text-foreground">
+                        {language === 'en' ? 'Track List' : '曲目列表'}
+                      </h2>
                       <div 
                         className="text-base leading-relaxed space-y-2"
-                        dangerouslySetInnerHTML={{ __html: recording.songlistEn }}
+                        dangerouslySetInnerHTML={{ __html: language === 'en' ? (recording.songlistEn || '') : (recording.songlistZh || recording.songlistEn || '') }}
                       />
                     </div>
-                  )}
+                  ) : null}
 
                   <div className="border-t border-b border-muted-grey py-8 mb-8">
                     <p className="text-4xl font-heading text-primary mb-6">
@@ -126,7 +136,7 @@ export default function RecordingDetailPage() {
                       disabled={isAdding}
                       className="w-full bg-primary text-primary-foreground px-8 py-4 text-lg font-medium transition-all duration-300 hover:bg-opacity-90 disabled:opacity-50"
                     >
-                      {isAdding ? 'Adding to Cart...' : 'Add to Cart'}
+                      {isAdding ? (language === 'en' ? 'Adding to Cart...' : '添加到購物車中...') : (language === 'en' ? 'Add to Cart' : '加入購物車')}
                     </button>
                   </div>
 
@@ -138,7 +148,7 @@ export default function RecordingDetailPage() {
                         rel="noopener noreferrer"
                         className="flex items-center justify-center gap-2 bg-transparent text-foreground border border-foreground px-6 py-3 text-lg transition-all duration-300 hover:bg-foreground hover:text-background w-full"
                       >
-                        Preview
+                        {language === 'en' ? 'Preview' : '預覽'}
                         <ExternalLink size={18} />
                       </a>
                     )}
@@ -149,7 +159,7 @@ export default function RecordingDetailPage() {
                         rel="noopener noreferrer"
                         className="flex items-center justify-center gap-2 bg-transparent text-foreground border border-foreground px-6 py-3 text-lg transition-all duration-300 hover:bg-foreground hover:text-background w-full"
                       >
-                        Listen on Spotify
+                        {language === 'en' ? 'Listen on Spotify' : '在 Spotify 上聆聽'}
                         <ExternalLink size={18} />
                       </a>
                     )}

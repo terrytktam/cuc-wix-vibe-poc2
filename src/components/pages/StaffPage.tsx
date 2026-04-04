@@ -5,10 +5,12 @@ import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import { BaseCrudService } from '@/integrations';
 import { ExcoStaffs } from '@/entities';
+import { useLanguageStore } from '@/lib/languageStore';
 
 export default function StaffPage() {
   const [staff, setStaff] = useState<ExcoStaffs[]>([]);
   const [isLoading, setIsLoading] = useState(true);
+  const { language } = useLanguageStore();
 
   useEffect(() => {
     loadStaff();
@@ -26,7 +28,7 @@ export default function StaffPage() {
   };
 
   const groupedStaff = staff.reduce((acc, member) => {
-    const role = member.roleEn || 'Other';
+    const role = language === 'en' ? (member.roleEn || 'Other') : (member.roleZh || member.roleEn || 'Other');
     if (!acc[role]) {
       acc[role] = [];
     }
@@ -47,10 +49,10 @@ export default function StaffPage() {
             className="text-center mb-20"
           >
             <h1 className="font-heading text-6xl md:text-7xl lg:text-8xl mb-8 text-foreground">
-              Staff & Administration
+              {language === 'en' ? 'Staff & Administration' : '職員及行政'}
             </h1>
             <p className="text-xl md:text-2xl max-w-4xl mx-auto leading-relaxed">
-              Meet the dedicated team that supports our mission
+              {language === 'en' ? 'Meet the dedicated team that supports our mission' : '認識支持我們使命的專業團隊'}
             </p>
           </motion.div>
 
@@ -59,7 +61,9 @@ export default function StaffPage() {
               null
             ) : staff.length === 0 ? (
               <div className="text-center py-20">
-                <p className="text-xl">No staff members available</p>
+                <p className="text-xl">
+                  {language === 'en' ? 'No staff members available' : '沒有可用的職員'}
+                </p>
               </div>
             ) : (
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12">
@@ -78,7 +82,7 @@ export default function StaffPage() {
                       {members.map((member) => (
                         <div key={member._id} className="pb-4 border-b border-muted-grey last:border-b-0">
                           <h3 className="text-lg font-medium mb-1">
-                            {member.nameEn}
+                            {language === 'en' ? member.nameEn : member.nameZh || member.nameEn}
                           </h3>
                           {member.email && (
                             <a
@@ -90,7 +94,7 @@ export default function StaffPage() {
                           )}
                           {member.year && (
                             <p className="text-sm text-foreground opacity-70 mt-1">
-                              Year: {member.year}
+                              {language === 'en' ? 'Year' : '年份'}: {member.year}
                             </p>
                           )}
                         </div>

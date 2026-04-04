@@ -8,6 +8,7 @@ import Footer from '@/components/Footer';
 import Cart from '@/components/Cart';
 import { BaseCrudService } from '@/integrations';
 import { SheetMusicCatalog } from '@/entities';
+import { useLanguageStore } from '@/lib/languageStore';
 
 export default function SheetMusicListingPage() {
   const { series } = useParams<{ series: string }>();
@@ -15,6 +16,7 @@ export default function SheetMusicListingPage() {
   const [isLoading, setIsLoading] = useState(true);
   const { addingItemId, actions } = useCart();
   const { currency } = useCurrency();
+  const { language } = useLanguageStore();
 
   useEffect(() => {
     loadScores();
@@ -38,13 +40,13 @@ export default function SheetMusicListingPage() {
   const getSeriesTitle = () => {
     switch (series) {
       case 'choral':
-        return 'CU Chorus Choral Series';
+        return language === 'en' ? 'CU Chorus Choral Series' : '中大合唱系列';
       case 'cantopop':
-        return 'CU Chorus Cantopop Series';
+        return language === 'en' ? 'CU Chorus Cantopop Series' : '中大粵語流行曲系列';
       case 'chorphillia':
         return 'Chorphillia';
       default:
-        return 'Sheet Music';
+        return language === 'en' ? 'Sheet Music' : '樂譜';
     }
   };
 
@@ -64,7 +66,7 @@ export default function SheetMusicListingPage() {
               {getSeriesTitle()}
             </h1>
             <p className="text-xl md:text-2xl max-w-4xl mx-auto leading-relaxed">
-              Browse our collection of choral scores
+              {language === 'en' ? 'Browse our collection of choral scores' : '瀏覽我們的合唱樂譜集合'}
             </p>
           </motion.div>
 
@@ -73,7 +75,9 @@ export default function SheetMusicListingPage() {
               null
             ) : scores.length === 0 ? (
               <div className="text-center py-20">
-                <p className="text-xl">No scores available in this series</p>
+                <p className="text-xl">
+                  {language === 'en' ? 'No scores available in this series' : '此系列中沒有可用的樂譜'}
+                </p>
               </div>
             ) : (
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-12">
@@ -115,7 +119,7 @@ export default function SheetMusicListingPage() {
                           disabled={isAdding}
                           className="bg-primary text-primary-foreground px-4 py-2 text-sm font-medium transition-all duration-300 hover:bg-opacity-90 disabled:opacity-50"
                         >
-                          {isAdding ? 'Adding...' : 'Add to Cart'}
+                          {isAdding ? (language === 'en' ? 'Adding...' : '添加中...') : (language === 'en' ? 'Add to Cart' : '加入購物車')}
                         </button>
                       </div>
                     </motion.div>

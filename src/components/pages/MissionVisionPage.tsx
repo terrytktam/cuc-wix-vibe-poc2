@@ -6,10 +6,12 @@ import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import { BaseCrudService } from '@/integrations';
 import { StaticDescriptions } from '@/entities';
+import { useLanguageStore } from '@/lib/languageStore';
 
 export default function MissionVisionPage() {
   const [content, setContent] = useState<StaticDescriptions | null>(null);
   const [isLoading, setIsLoading] = useState(true);
+  const { language } = useLanguageStore();
 
   useEffect(() => {
     loadContent();
@@ -40,7 +42,7 @@ export default function MissionVisionPage() {
               </div>
             ) : !content ? (
               <div className="text-center py-32">
-                <p className="text-xl">Content not available</p>
+                <p className="text-xl">{language === 'en' ? 'Content not available' : '內容不可用'}</p>
               </div>
             ) : (
               <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
@@ -50,11 +52,11 @@ export default function MissionVisionPage() {
                   transition={{ duration: 0.8 }}
                 >
                   <h1 className="font-heading text-6xl md:text-7xl mb-8 text-foreground">
-                    {content.titleEn || 'Mission & Vision'}
+                    {language === 'en' ? content.titleEn : content.titleZh || content.titleEn || 'Mission & Vision'}
                   </h1>
                   <div 
                     className="text-lg leading-relaxed space-y-6"
-                    dangerouslySetInnerHTML={{ __html: content.descriptionEn || '' }}
+                    dangerouslySetInnerHTML={{ __html: language === 'en' ? (content.descriptionEn || '') : (content.descriptionZh || content.descriptionEn || '') }}
                   />
                 </motion.div>
 
@@ -66,7 +68,7 @@ export default function MissionVisionPage() {
                 >
                   <Image
                     src={content.pageImage || 'https://static.wixstatic.com/media/c418c8_90a165930e134a67a309eba2306689fa~mv2.png?originWidth=576&originHeight=768'}
-                    alt="Mission and Vision"
+                    alt={language === 'en' ? 'Mission and Vision' : '使命與願景'}
                     className="w-full h-full object-cover"
                   />
                 </motion.div>

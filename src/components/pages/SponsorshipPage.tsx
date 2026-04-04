@@ -6,10 +6,12 @@ import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import { BaseCrudService } from '@/integrations';
 import { StaticDescriptions } from '@/entities';
+import { useLanguageStore } from '@/lib/languageStore';
 
 export default function SponsorshipPage() {
   const [content, setContent] = useState<StaticDescriptions | null>(null);
   const [isLoading, setIsLoading] = useState(true);
+  const { language } = useLanguageStore();
 
   useEffect(() => {
     loadContent();
@@ -41,10 +43,13 @@ export default function SponsorshipPage() {
             ) : !content ? (
               <div className="text-center py-32">
                 <h1 className="font-heading text-6xl md:text-7xl mb-8 text-foreground">
-                  Sponsorship Programs
+                  {language === 'en' ? 'Sponsorship Programs' : '贊助計劃'}
                 </h1>
                 <p className="text-xl max-w-4xl mx-auto leading-relaxed">
-                  Thank you for your interest in supporting CU Chorus. Your sponsorship helps us continue our mission of promoting the art of choral music through high-quality performances and innovative programs.
+                  {language === 'en' 
+                    ? 'Thank you for your interest in supporting CU Chorus. Your sponsorship helps us continue our mission of promoting the art of choral music through high-quality performances and innovative programs.'
+                    : '感謝您對支持中大合唱團的興趣。您的贊助幫助我們通過高質量的演出和創新計劃繼續推廣合唱藝術的使命。'
+                  }
                 </p>
               </div>
             ) : (
@@ -55,11 +60,11 @@ export default function SponsorshipPage() {
                   transition={{ duration: 0.8 }}
                 >
                   <h1 className="font-heading text-6xl md:text-7xl mb-8 text-foreground">
-                    {content.titleEn || 'Sponsorship Programs'}
+                    {language === 'en' ? content.titleEn : content.titleZh || content.titleEn || 'Sponsorship Programs'}
                   </h1>
                   <div 
                     className="text-lg leading-relaxed space-y-6"
-                    dangerouslySetInnerHTML={{ __html: content.descriptionEn || '' }}
+                    dangerouslySetInnerHTML={{ __html: language === 'en' ? (content.descriptionEn || '') : (content.descriptionZh || content.descriptionEn || '') }}
                   />
                 </motion.div>
 
@@ -71,7 +76,7 @@ export default function SponsorshipPage() {
                 >
                   <Image
                     src={content.pageImage || 'https://static.wixstatic.com/media/c418c8_742ba87e023b4b0c8cf99733efd4ca05~mv2.png?originWidth=576&originHeight=768'}
-                    alt="Sponsorship"
+                    alt={language === 'en' ? 'Sponsorship' : '贊助'}
                     className="w-full h-full object-cover"
                   />
                 </motion.div>

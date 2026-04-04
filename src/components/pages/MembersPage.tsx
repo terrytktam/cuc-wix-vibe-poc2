@@ -5,11 +5,13 @@ import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import { BaseCrudService } from '@/integrations';
 import { ChorusMembers, VocalTypes } from '@/entities';
+import { useLanguageStore } from '@/lib/languageStore';
 
 export default function MembersPage() {
   const [members, setMembers] = useState<ChorusMembers[]>([]);
   const [vocalTypes, setVocalTypes] = useState<VocalTypes[]>([]);
   const [isLoading, setIsLoading] = useState(true);
+  const { language } = useLanguageStore();
 
   useEffect(() => {
     loadData();
@@ -31,7 +33,7 @@ export default function MembersPage() {
   };
 
   const groupedMembers = vocalTypes.map(vocalType => ({
-    type: vocalType.typeEn || vocalType.title || 'Other',
+    type: language === 'en' ? (vocalType.typeEn || vocalType.title || 'Other') : (vocalType.typeZh || vocalType.typeEn || vocalType.title || 'Other'),
     members: members.filter(member => member.vocalType === vocalType.title)
   }));
 
@@ -48,10 +50,10 @@ export default function MembersPage() {
             className="text-center mb-20"
           >
             <h1 className="font-heading text-6xl md:text-7xl lg:text-8xl mb-8 text-foreground">
-              Chorus Members
+              {language === 'en' ? 'Chorus Members' : '合唱團成員'}
             </h1>
             <p className="text-xl md:text-2xl max-w-4xl mx-auto leading-relaxed">
-              The talented voices that bring our music to life
+              {language === 'en' ? 'The talented voices that bring our music to life' : '為我們的音樂帶來生命的聲音'}
             </p>
           </motion.div>
 
@@ -60,7 +62,9 @@ export default function MembersPage() {
               null
             ) : members.length === 0 ? (
               <div className="text-center py-20">
-                <p className="text-xl">No members available</p>
+                <p className="text-xl">
+                  {language === 'en' ? 'No members available' : '沒有可用的成員'}
+                </p>
               </div>
             ) : (
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12">
@@ -80,14 +84,16 @@ export default function MembersPage() {
                         {group.members.map((member) => (
                           <div key={member._id} className="pb-4 border-b border-muted-grey last:border-b-0">
                             <h3 className="text-lg font-medium mb-1">
-                              {member.nameEn}
+                              {language === 'en' ? member.nameEn : member.nameZh || member.nameEn}
                               {member.isLeader && (
-                                <span className="text-sm text-primary ml-2">(Leader)</span>
+                                <span className="text-sm text-primary ml-2">
+                                  ({language === 'en' ? 'Leader' : '領導'})
+                                </span>
                               )}
                             </h3>
                             {member.yearJoined && (
                               <p className="text-sm text-foreground opacity-70">
-                                Joined: {member.yearJoined}
+                                {language === 'en' ? 'Joined' : '加入'}: {member.yearJoined}
                               </p>
                             )}
                           </div>

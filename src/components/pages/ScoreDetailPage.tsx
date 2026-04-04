@@ -9,6 +9,7 @@ import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import { BaseCrudService } from '@/integrations';
 import { SheetMusicCatalog } from '@/entities';
+import { useLanguageStore } from '@/lib/languageStore';
 
 export default function ScoreDetailPage() {
   const { id } = useParams<{ id: string }>();
@@ -16,6 +17,7 @@ export default function ScoreDetailPage() {
   const [isLoading, setIsLoading] = useState(true);
   const { addingItemId, actions } = useCart();
   const { currency } = useCurrency();
+  const { language } = useLanguageStore();
 
   useEffect(() => {
     if (id) {
@@ -49,8 +51,12 @@ export default function ScoreDetailPage() {
               </div>
             ) : !score ? (
               <div className="text-center py-32">
-                <h1 className="font-heading text-5xl mb-4">Score Not Found</h1>
-                <p className="text-xl">The score you're looking for doesn't exist</p>
+                <h1 className="font-heading text-5xl mb-4">
+                  {language === 'en' ? 'Score Not Found' : '樂譜未找到'}
+                </h1>
+                <p className="text-xl">
+                  {language === 'en' ? "The score you're looking for doesn't exist" : '您要查找的樂譜不存在'}
+                </p>
               </div>
             ) : (
               <div className="grid grid-cols-1 lg:grid-cols-2 gap-16">
@@ -79,22 +85,22 @@ export default function ScoreDetailPage() {
                   <div className="space-y-4 mb-8">
                     {score.voicing && (
                       <p className="text-lg">
-                        <span className="text-primary">Voicing:</span> {score.voicing}
+                        <span className="text-primary">{language === 'en' ? 'Voicing' : '聲部'}:</span> {score.voicing}
                       </p>
                     )}
                     {score.series && (
                       <p className="text-lg">
-                        <span className="text-primary">Series:</span> {score.series}
+                        <span className="text-primary">{language === 'en' ? 'Series' : '系列'}:</span> {score.series}
                       </p>
                     )}
-                    {score.languageEn && (
+                    {language === 'en' ? score.languageEn : score.languageZh || score.languageEn ? (
                       <p className="text-lg">
-                        <span className="text-primary">Language:</span> {score.languageEn}
+                        <span className="text-primary">{language === 'en' ? 'Language' : '語言'}:</span> {language === 'en' ? score.languageEn : score.languageZh || score.languageEn}
                       </p>
-                    )}
+                    ) : null}
                     {score.publishYear && (
                       <p className="text-lg">
-                        <span className="text-primary">Published:</span> {score.publishYear}
+                        <span className="text-primary">{language === 'en' ? 'Published' : '出版'}:</span> {score.publishYear}
                       </p>
                     )}
                   </div>
@@ -111,7 +117,7 @@ export default function ScoreDetailPage() {
                       disabled={isAdding}
                       className="w-full bg-primary text-primary-foreground px-8 py-4 text-lg font-medium transition-all duration-300 hover:bg-opacity-90 disabled:opacity-50"
                     >
-                      {isAdding ? 'Adding to Cart...' : 'Add to Cart'}
+                      {isAdding ? (language === 'en' ? 'Adding to Cart...' : '添加到購物車中...') : (language === 'en' ? 'Add to Cart' : '加入購物車')}
                     </button>
                   </div>
 
@@ -123,7 +129,7 @@ export default function ScoreDetailPage() {
                         rel="noopener noreferrer"
                         className="flex items-center justify-center gap-2 bg-transparent text-foreground border border-foreground px-6 py-3 text-lg transition-all duration-300 hover:bg-foreground hover:text-background w-full"
                       >
-                        Preview Score
+                        {language === 'en' ? 'Preview Score' : '預覽樂譜'}
                         <ExternalLink size={18} />
                       </a>
                     )}
@@ -134,7 +140,7 @@ export default function ScoreDetailPage() {
                         rel="noopener noreferrer"
                         className="flex items-center justify-center gap-2 bg-transparent text-foreground border border-foreground px-6 py-3 text-lg transition-all duration-300 hover:bg-foreground hover:text-background w-full"
                       >
-                        Listen to Demo
+                        {language === 'en' ? 'Listen to Demo' : '聆聽示範'}
                         <ExternalLink size={18} />
                       </a>
                     )}

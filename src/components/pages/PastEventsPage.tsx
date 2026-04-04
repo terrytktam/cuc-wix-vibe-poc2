@@ -56,10 +56,10 @@ export default function PastEventsPage() {
             className="text-center mb-20"
           >
             <h1 className="font-heading text-6xl md:text-7xl lg:text-8xl mb-8 text-foreground">
-              Past Events
+              {language === 'en' ? 'Past Events' : '過往活動'}
             </h1>
             <p className="text-xl md:text-2xl max-w-4xl mx-auto leading-relaxed">
-              Explore our history of memorable performances
+              {language === 'en' ? 'Explore our history of memorable performances' : '探索我們難忘的演出歷史'}
             </p>
           </motion.div>
 
@@ -68,14 +68,20 @@ export default function PastEventsPage() {
               null
             ) : allPast.length === 0 ? (
               <div className="text-center py-20">
-                <p className="text-xl">No past events available</p>
+                <p className="text-xl">
+                  {language === 'en' ? 'No past events available' : '沒有可用的過往活動'}
+                </p>
               </div>
             ) : (
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12">
                 {allPast.map((item, index) => {
                   const isEvent = item.type === 'event';
-                  const title = isEvent ? (item as Events).titleEn : (item as Concerts).titleEn;
-                  const venue = isEvent ? (item as Events).dateTimeVenueEn : (item as Concerts).venueEn;
+                  const titleEn = isEvent ? (item as Events).titleEn : (item as Concerts).titleEn;
+                  const titleZh = isEvent ? (item as Events).titleZh : (item as Concerts).titleZh;
+                  const title = language === 'en' ? titleEn : titleZh;
+                  const venueEn = isEvent ? (item as Events).dateTimeVenueEn : (item as Concerts).venueEn;
+                  const venueZh = isEvent ? (item as Events).dateTimeVenueZh : (item as Concerts).venueZh;
+                  const venue = language === 'en' ? venueEn : venueZh;
                   const date = isEvent ? null : (item as Concerts).date;
                   
                   return (
