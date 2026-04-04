@@ -3,12 +3,12 @@ import { useParams } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { Image } from '@/components/ui/image';
 import { LoadingSpinner } from '@/components/ui/loading-spinner';
-import { ExternalLink } from 'lucide-react';
+import { ExternalLink, Users, MessageSquare } from 'lucide-react';
 import { useCart, useCurrency, formatPrice, DEFAULT_CURRENCY } from '@/integrations';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import { BaseCrudService } from '@/integrations';
-import { Recordings } from '@/entities';
+import { Recordings, Contributors, Mentions } from '@/entities';
 import { useLanguageStore } from '@/lib/languageStore';
 
 export default function RecordingDetailPage() {
@@ -27,7 +27,9 @@ export default function RecordingDetailPage() {
 
   const loadRecording = async () => {
     try {
-      const data = await BaseCrudService.getById<Recordings>('recordings', id!);
+      const data = await BaseCrudService.getById<Recordings>('recordings', id!, {
+        multiRef: ['contributors', 'mentions']
+      });
       setRecording(data);
     } catch (error) {
       console.error('Error loading recording:', error);
@@ -162,6 +164,85 @@ export default function RecordingDetailPage() {
                         {language === 'en' ? 'Listen on Spotify' : '在 Spotify 上聆聽'}
                         <ExternalLink size={18} />
                       </a>
+                    )}
+
+                    {/* Contributors Section */}
+                    {recording.contributors && recording.contributors.length > 0 && (
+                      <motion.div
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 0.6, delay: 0.3 }}
+                        className="border border-muted-grey p-6 mt-6"
+                      >
+                        <div className="flex items-center gap-3 mb-4">
+                          <Users size={20} className="text-primary" />
+                          <h3 className="font-heading text-2xl text-primary">
+                            {language === 'en' ? 'Contributors' : '貢獻者'}
+                          </h3>
+                        </div>
+                        <div className="space-y-3">
+                          {recording.contributors.map((contributor) => (
+                            <div key={contributor._id} className="pb-3 border-b border-muted-grey last:border-b-0">
+                              <p className="text-base font-medium">
+                                {language === 'en' ? contributor.namesEn : contributor.namesZh || contributor.namesEn}
+                              </p>
+                              <p className="text-sm text-foreground opacity-75">
+                                {language === 'en' ? contributor.roleEn : contributor.roleZh || contributor.roleEn}
+                              </p>
+                            </div>
+                          ))}
+                        </div>
+                      </motion.div>
+                    )}
+
+                    {/* Mentions Section */}
+                    {recording.mentions && recording.mentions.length > 0 && (
+                      <motion.div
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 0.6, delay: 0.4 }}
+                        className="border border-muted-grey p-6 mt-6"
+                      >
+                        <div className="flex items-center gap-3 mb-4">
+                          <MessageSquare size={20} className="text-primary" />
+                          <h3 className="font-heading text-2xl text-primary">
+                            {language === 'en' ? 'Mentions' : '提及'}
+                          </h3>
+                        </div>
+                        <div className="space-y-3">
+                          {recording.mentions.map((mention) => (
+                            <div key={mention._id} className="pb-3 border-b border-muted-grey last:border-b-0">
+                              <div className="flex items-start justify-between gap-3">
+                                <div className="flex-1">
+                                  <p className="text-base font-medium">{mention.title}</p>
+                                  <p className="text-xs text-foreground opacity-75">
+                                    {mention.author} • {mention.source}
+                                  </p>
+                                  {mention.date && (
+                                    <p className="text-xs text-foreground opacity-60 mt-1">
+                                      {new Date(mention.date).toLocaleDateString('en-US', { 
+                                        year: 'numeric', 
+                                        month: 'long', 
+                                        day: 'numeric' 
+                                      })}
+                                    </p>
+                                  )}
+                                </div>
+                                {mention.url && (
+                                  <a
+                                    href={mention.url}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="text-primary hover:text-primary opacity-80 hover:opacity-100 transition-all flex-shrink-0"
+                                  >
+                                    <ExternalLink size={16} />
+                                  </a>
+                                )}
+                              </div>
+                            </div>
+                          ))}
+                        </div>
+                      </motion.div>
                     )}
                   </div>
                 </motion.div>
