@@ -272,6 +272,10 @@ export interface Recordings {
   _createdDate?: Date;
   _updatedDate?: Date;
   /** @wixFieldType text */
+  mediumReference?: string;
+  /** @wixFieldType text */
+  recordTypeReference?: string;
+  /** @wixFieldType text */
   itemName?: string;
   /** @wixFieldType number */
   itemPrice?: number;
@@ -367,6 +371,8 @@ export interface SheetMusicCatalog {
   _updatedDate?: Date;
   /** @wixFieldType text */
   itemName?: string;
+  /** @wixFieldType text */
+  songReference?: string;
   /** @wixFieldType number */
   itemPrice?: number;
   /** @wixFieldType image - Contains image URL, render with <Image> component, NOT as text */

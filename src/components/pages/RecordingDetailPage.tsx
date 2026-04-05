@@ -3,17 +3,19 @@ import { useParams } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { Image } from '@/components/ui/image';
 import { LoadingSpinner } from '@/components/ui/loading-spinner';
-import { ExternalLink, Users, MessageSquare } from 'lucide-react';
+import { ExternalLink, Users, MessageSquare, Disc3, Package } from 'lucide-react';
 import { useCart, useCurrency, formatPrice, DEFAULT_CURRENCY } from '@/integrations';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import { BaseCrudService } from '@/integrations';
-import { Recordings, Contributors, Mentions } from '@/entities';
+import { Recordings, Contributors, Mentions, RecordTypes, RecordingMediums } from '@/entities';
 import { useLanguageStore } from '@/lib/languageStore';
 
 export default function RecordingDetailPage() {
   const { id } = useParams<{ id: string }>();
   const [recording, setRecording] = useState<Recordings | null>(null);
+  const [recordType, setRecordType] = useState<RecordTypes | null>(null);
+  const [medium, setMedium] = useState<RecordingMediums | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const { addingItemId, actions } = useCart();
   const { currency } = useCurrency();
@@ -31,6 +33,18 @@ export default function RecordingDetailPage() {
         multiRef: ['contributors', 'mentions']
       });
       setRecording(data);
+      
+      // Load record type if recordTypeReference exists
+      if (data?.recordTypeReference) {
+        const typeData = await BaseCrudService.getById<RecordTypes>('recordtypes', data.recordTypeReference);
+        setRecordType(typeData);
+      }
+      
+      // Load medium if mediumReference exists
+      if (data?.mediumReference) {
+        const mediumData = await BaseCrudService.getById<RecordingMediums>('mediums', data.mediumReference);
+        setMedium(mediumData);
+      }
     } catch (error) {
       console.error('Error loading recording:', error);
     } finally {
@@ -99,6 +113,62 @@ export default function RecordingDetailPage() {
                       <p className="text-lg">
                         <span className="text-primary">ISRC:</span> {recording.isrc}
                       </p>
+                    )}
+                  </div>
+
+                  {/* Record Type and Medium Section */}
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8">
+                    {recordType && (
+                      <motion.div
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 0.6, delay: 0.3 }}
+                        className="border border-muted-grey p-4"
+                      >
+                        <div className="flex items-center gap-2 mb-3">
+                          <Disc3 size={18} className="text-primary" />
+                          <h3 className="font-heading text-lg text-primary">
+                            {language === 'en' ? 'Record Type' : '錄音類型'}
+                          </h3>
+                        </div>
+                        <p className="text-base font-medium mb-1">
+                          {language === 'en' ? recordType.typeEn : recordType.typeZh || recordType.typeEn}
+                        </p>
+                        {(language === 'en' ? recordType.descriptionEn : recordType.descriptionZh || recordType.descriptionEn) && (
+                          <p className="text-sm text-foreground opacity-75">
+                            {language === 'en' ? recordType.descriptionEn : recordType.descriptionZh || recordType.descriptionEn}
+                          </p>
+                        )}
+                      </motion.div>
+                    )}
+                    
+                    {medium && (
+                      <motion.div
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 0.6, delay: 0.4 }}
+                        className="border border-muted-grey p-4"
+                      >
+                        <div className="flex items-center gap-2 mb-3">
+                          <Package size={18} className="text-primary" />
+                          <h3 className="font-heading text-lg text-primary">
+                            {language === 'en' ? 'Medium' : '介質'}
+                          </h3>
+                        </div>
+                        <p className="text-base font-medium mb-1">
+                          {language === 'en' ? medium.mediumEn : medium.mediumZh || medium.mediumEn}
+                        </p>
+                        {medium.description && (
+                          <p className="text-sm text-foreground opacity-75">
+                            {medium.description}
+                          </p>
+                        )}
+                        {medium.isPhysical !== undefined && (
+                          <p className="text-xs text-foreground opacity-60 mt-2">
+                            {medium.isPhysical ? (language === 'en' ? 'Physical Medium' : '實體介質') : (language === 'en' ? 'Digital Medium' : '數字介質')}
+                          </p>
+                        )}
+                      </motion.div>
                     )}
                   </div>
 

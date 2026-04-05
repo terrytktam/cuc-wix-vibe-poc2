@@ -3,17 +3,18 @@ import { useParams } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { Image } from '@/components/ui/image';
 import { LoadingSpinner } from '@/components/ui/loading-spinner';
-import { ExternalLink } from 'lucide-react';
+import { ExternalLink, Music } from 'lucide-react';
 import { useCart, useCurrency, formatPrice, DEFAULT_CURRENCY } from '@/integrations';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import { BaseCrudService } from '@/integrations';
-import { SheetMusicCatalog } from '@/entities';
+import { SheetMusicCatalog, Songs } from '@/entities';
 import { useLanguageStore } from '@/lib/languageStore';
 
 export default function ScoreDetailPage() {
   const { id } = useParams<{ id: string }>();
   const [score, setScore] = useState<SheetMusicCatalog | null>(null);
+  const [song, setSong] = useState<Songs | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const { addingItemId, actions } = useCart();
   const { currency } = useCurrency();
@@ -29,6 +30,12 @@ export default function ScoreDetailPage() {
     try {
       const data = await BaseCrudService.getById<SheetMusicCatalog>('scores', id!);
       setScore(data);
+      
+      // Load song if songReference exists
+      if (data?.songReference) {
+        const songData = await BaseCrudService.getById<Songs>('songs', data.songReference);
+        setSong(songData);
+      }
     } catch (error) {
       console.error('Error loading score:', error);
     } finally {
@@ -104,6 +111,73 @@ export default function ScoreDetailPage() {
                       </p>
                     )}
                   </div>
+
+                  {/* Song Details Section */}
+                  {song && (
+                    <motion.div
+                      initial={{ opacity: 0, y: 20 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ duration: 0.6, delay: 0.3 }}
+                      className="border border-muted-grey p-6 mb-8"
+                    >
+                      <div className="flex items-center gap-3 mb-4">
+                        <Music size={20} className="text-primary" />
+                        <h3 className="font-heading text-2xl text-primary">
+                          {language === 'en' ? 'Song Information' : '歌曲信息'}
+                        </h3>
+                      </div>
+                      <div className="space-y-3">
+                        <div>
+                          <p className="text-sm text-foreground opacity-75 mb-1">
+                            {language === 'en' ? 'Title' : '標題'}
+                          </p>
+                          <p className="text-base font-medium">
+                            {language === 'en' ? song.nameEn : song.nameZh || song.nameEn}
+                          </p>
+                        </div>
+                        {(language === 'en' ? song.composerEn : song.composerZh || song.composerEn) && (
+                          <div>
+                            <p className="text-sm text-foreground opacity-75 mb-1">
+                              {language === 'en' ? 'Composer' : '作曲家'}
+                            </p>
+                            <p className="text-base">
+                              {language === 'en' ? song.composerEn : song.composerZh || song.composerEn}
+                            </p>
+                          </div>
+                        )}
+                        {(language === 'en' ? song.lyricistEn : song.lyricistZh || song.lyricistEn) && (
+                          <div>
+                            <p className="text-sm text-foreground opacity-75 mb-1">
+                              {language === 'en' ? 'Lyricist' : '作詞家'}
+                            </p>
+                            <p className="text-base">
+                              {language === 'en' ? song.lyricistEn : song.lyricistZh || song.lyricistEn}
+                            </p>
+                          </div>
+                        )}
+                        {(language === 'en' ? song.arrangerEn : song.arrangerZh || song.arrangerEn) && (
+                          <div>
+                            <p className="text-sm text-foreground opacity-75 mb-1">
+                              {language === 'en' ? 'Arranger' : '編排者'}
+                            </p>
+                            <p className="text-base">
+                              {language === 'en' ? song.arrangerEn : song.arrangerZh || song.arrangerEn}
+                            </p>
+                          </div>
+                        )}
+                        {(language === 'en' ? song.singerEn : song.singerZh || song.singerEn) && (
+                          <div>
+                            <p className="text-sm text-foreground opacity-75 mb-1">
+                              {language === 'en' ? 'Singer' : '歌手'}
+                            </p>
+                            <p className="text-base">
+                              {language === 'en' ? song.singerEn : song.singerZh || song.singerEn}
+                            </p>
+                          </div>
+                        )}
+                      </div>
+                    </motion.div>
+                  )}
 
                   <div className="border-t border-b border-muted-grey py-8 mb-8">
                     <p className="text-4xl font-heading text-primary mb-6">
