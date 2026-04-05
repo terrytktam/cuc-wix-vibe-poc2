@@ -10,6 +10,7 @@ import Footer from '@/components/Footer';
 import { BaseCrudService } from '@/integrations';
 import { Recordings, Contributors, Mentions, RecordTypes, RecordingMediums } from '@/entities';
 import { useLanguageStore } from '@/lib/languageStore';
+import { useSEO } from '@/hooks/useSEO';
 
 export default function RecordingDetailPage() {
   const { id } = useParams<{ id: string }>();
@@ -20,6 +21,7 @@ export default function RecordingDetailPage() {
   const { addingItemId, actions } = useCart();
   const { currency } = useCurrency();
   const { language } = useLanguageStore();
+  useSEO('recordings');
 
   useEffect(() => {
     if (id) {

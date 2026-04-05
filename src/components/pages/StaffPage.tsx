@@ -6,11 +6,13 @@ import Footer from '@/components/Footer';
 import { BaseCrudService } from '@/integrations';
 import { ExcoStaffs } from '@/entities';
 import { useLanguageStore } from '@/lib/languageStore';
+import { useSEO } from '@/hooks/useSEO';
 
 export default function StaffPage() {
   const [staff, setStaff] = useState<ExcoStaffs[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const { language } = useLanguageStore();
+  useSEO('staff');
 
   useEffect(() => {
     loadStaff();

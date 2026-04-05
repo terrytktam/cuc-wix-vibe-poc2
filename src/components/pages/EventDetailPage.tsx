@@ -9,12 +9,14 @@ import Footer from '@/components/Footer';
 import { BaseCrudService } from '@/integrations';
 import { Events, Contributors, Mentions, Biographies, Relationships } from '@/entities';
 import { useLanguageStore } from '@/lib/languageStore';
+import { useSEO } from '@/hooks/useSEO';
 
 export default function EventDetailPage() {
   const { id } = useParams<{ id: string }>();
   const [event, setEvent] = useState<Events | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const { language } = useLanguageStore();
+  useSEO('upcoming-events');
 
   useEffect(() => {
     if (id) {

@@ -3,7 +3,7 @@ import { Link, useLocation } from 'react-router-dom';
 import { Menu, X, Facebook, Instagram, Youtube, ShoppingCart } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useCart } from '@/integrations';
-import { useLanguageStore } from '@/lib/languageStore';
+import { useLanguageStore, buildLocalizedPath } from '@/lib/languageStore';
 import Cart from '@/components/Cart';
 
 export default function Header() {
@@ -14,7 +14,9 @@ export default function Header() {
 
   const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
 
-  const isActive = (path: string) => location.pathname === path;
+  // Remove language prefix from pathname for comparison
+  const cleanPath = location.pathname.replace(/^\/(?:en|zh)/, '') || '/';
+  const isActive = (path: string) => cleanPath === path || (path === '/' && cleanPath === '');
 
   const navigationItems = [
     {
@@ -61,12 +63,20 @@ export default function Header() {
     }
   ];
 
+  const handleLanguageToggle = () => {
+    toggleLanguage();
+    // Navigate to the same page in the new language
+    const newLanguage = language === 'en' ? 'zh' : 'en';
+    const newPath = buildLocalizedPath(cleanPath, newLanguage);
+    window.location.href = newPath;
+  };
+
   return (
     <header className="fixed top-0 left-0 right-0 z-50 bg-background border-b border-muted-grey">
       <div className="max-w-[100rem] mx-auto px-8 py-6">
         <div className="flex items-center justify-between">
           {/* Logo */}
-          <Link to="/" className="flex items-center">
+          <Link to={buildLocalizedPath('/', language)} className="flex items-center">
             <h1 className="font-heading text-2xl md:text-3xl text-foreground hover:text-primary transition-colors duration-300">
               CU Chorus
             </h1>
@@ -77,7 +87,7 @@ export default function Header() {
             {navigationItems.map((item) => (
               <div key={item.path} className="relative group">
                 <Link
-                  to={item.path}
+                  to={buildLocalizedPath(item.path, language)}
                   className={`text-base font-paragraph transition-colors duration-300 ${
                     isActive(item.path) ? 'text-primary' : 'text-foreground hover:text-primary'
                   }`}
@@ -91,7 +101,7 @@ export default function Header() {
                       {item.children.map((child) => (
                         <Link
                           key={child.path}
-                          to={child.path}
+                          to={buildLocalizedPath(child.path, language)}
                           className={`block py-2 text-sm transition-colors duration-300 ${
                             isActive(child.path) ? 'text-primary' : 'text-foreground hover:text-primary'
                           }`}
@@ -148,8 +158,9 @@ export default function Header() {
               )}
             </button>
             <button
-              onClick={toggleLanguage}
+              onClick={handleLanguageToggle}
               className="text-sm font-paragraph text-foreground hover:text-primary transition-colors duration-300 border border-muted-grey px-3 py-1"
+              aria-label="Toggle language"
             >
               {language === 'en' ? '中文' : 'EN'}
             </button>
@@ -180,7 +191,7 @@ export default function Header() {
               {navigationItems.map((item) => (
                 <div key={item.path} className="mb-4">
                   <Link
-                    to={item.path}
+                    to={buildLocalizedPath(item.path, language)}
                     onClick={() => setIsMenuOpen(false)}
                     className={`block py-2 text-base font-paragraph transition-colors duration-300 ${
                       isActive(item.path) ? 'text-primary' : 'text-foreground hover:text-primary'
@@ -194,7 +205,7 @@ export default function Header() {
                       {item.children.map((child) => (
                         <Link
                           key={child.path}
-                          to={child.path}
+                          to={buildLocalizedPath(child.path, language)}
                           onClick={() => setIsMenuOpen(false)}
                           className={`block py-2 text-sm transition-colors duration-300 ${
                             isActive(child.path) ? 'text-primary' : 'text-foreground hover:text-primary'
@@ -249,8 +260,9 @@ export default function Header() {
                   )}
                 </button>
                 <button
-                  onClick={toggleLanguage}
+                  onClick={handleLanguageToggle}
                   className="text-sm font-paragraph text-foreground hover:text-primary transition-colors duration-300 border border-muted-grey px-3 py-1"
+                  aria-label="Toggle language"
                 >
                   {language === 'en' ? '中文' : 'EN'}
                 </button>

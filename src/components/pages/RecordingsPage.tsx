@@ -7,7 +7,8 @@ import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import { BaseCrudService } from '@/integrations';
 import { Recordings } from '@/entities';
-import { useLanguageStore } from '@/lib/languageStore';
+import { useLanguageStore, buildLocalizedPath } from '@/lib/languageStore';
+import { useSEO } from '@/hooks/useSEO';
 
 export default function RecordingsPage() {
   const [recordings, setRecordings] = useState<Recordings[]>([]);
@@ -15,6 +16,7 @@ export default function RecordingsPage() {
   const { addingItemId, actions } = useCart();
   const { currency } = useCurrency();
   const { language } = useLanguageStore();
+  useSEO('recordings');
 
   useEffect(() => {
     loadRecordings();

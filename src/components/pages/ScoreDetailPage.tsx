@@ -10,6 +10,7 @@ import Footer from '@/components/Footer';
 import { BaseCrudService } from '@/integrations';
 import { SheetMusicCatalog, Songs } from '@/entities';
 import { useLanguageStore } from '@/lib/languageStore';
+import { useSEO } from '@/hooks/useSEO';
 
 export default function ScoreDetailPage() {
   const { id } = useParams<{ id: string }>();
@@ -19,6 +20,7 @@ export default function ScoreDetailPage() {
   const { addingItemId, actions } = useCart();
   const { currency } = useCurrency();
   const { language } = useLanguageStore();
+  useSEO('sheet-music');
 
   useEffect(() => {
     if (id) {

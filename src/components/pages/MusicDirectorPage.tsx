@@ -7,11 +7,13 @@ import Footer from '@/components/Footer';
 import { BaseCrudService } from '@/integrations';
 import { Biographies } from '@/entities';
 import { useLanguageStore } from '@/lib/languageStore';
+import { useSEO } from '@/hooks/useSEO';
 
 export default function MusicDirectorPage() {
   const [director, setDirector] = useState<Biographies | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const { language } = useLanguageStore();
+  useSEO('music-director');
 
   useEffect(() => {
     loadDirector();

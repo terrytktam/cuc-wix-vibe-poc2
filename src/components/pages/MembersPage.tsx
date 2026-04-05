@@ -6,12 +6,14 @@ import Footer from '@/components/Footer';
 import { BaseCrudService } from '@/integrations';
 import { ChorusMembers, VocalTypes } from '@/entities';
 import { useLanguageStore } from '@/lib/languageStore';
+import { useSEO } from '@/hooks/useSEO';
 
 export default function MembersPage() {
   const [members, setMembers] = useState<ChorusMembers[]>([]);
   const [vocalTypes, setVocalTypes] = useState<VocalTypes[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const { language } = useLanguageStore();
+  useSEO('members');
 
   useEffect(() => {
     loadData();

@@ -3,10 +3,12 @@ import { motion } from 'framer-motion';
 import { Image } from '@/components/ui/image';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
-import { useLanguageStore } from '@/lib/languageStore';
+import { useLanguageStore, buildLocalizedPath } from '@/lib/languageStore';
+import { useSEO } from '@/hooks/useSEO';
 
 export default function AboutPage() {
   const { language } = useLanguageStore();
+  useSEO('about');
 
   const sections = [
     {
@@ -74,7 +76,7 @@ export default function AboutPage() {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6, delay: index * 0.1 }}
               >
-                <Link to={section.path} className="group block">
+                <Link to={buildLocalizedPath(section.path, language)} className="group block">
                   <div className="relative aspect-[4/5] mb-6 overflow-hidden">
                     <Image
                       src={section.image}

@@ -5,10 +5,12 @@ import { motion, useScroll, useTransform, useSpring } from 'framer-motion';
 import { Image } from '@/components/ui/image';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
-import { useLanguageStore } from '@/lib/languageStore';
+import { useLanguageStore, buildLocalizedPath } from '@/lib/languageStore';
+import { useSEO } from '@/hooks/useSEO';
 
 export default function HomePage() {
   const { language } = useLanguageStore();
+  useSEO('home');
 
   // --- CANONICAL DATA SOURCES ---
   // Preserved exactly from the original code's intent and structure.
@@ -248,7 +250,7 @@ export default function HomePage() {
                   transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
                   className={`group flex flex-col ${isEven ? 'md:mt-0' : 'md:mt-32'}`}
                 >
-                  <Link to={item.link} className="block w-full">
+                  <Link to={buildLocalizedPath(item.link, language)} className="block w-full">
                     <div className="relative aspect-[3/4] mb-8 overflow-hidden bg-background">
                       {/* Image Overlay for depth */}
                       <div className="absolute inset-0 bg-black/20 group-hover:bg-transparent transition-colors duration-700 z-10" />

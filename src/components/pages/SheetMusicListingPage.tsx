@@ -8,7 +8,8 @@ import Footer from '@/components/Footer';
 import Cart from '@/components/Cart';
 import { BaseCrudService } from '@/integrations';
 import { SheetMusicCatalog } from '@/entities';
-import { useLanguageStore } from '@/lib/languageStore';
+import { useLanguageStore, buildLocalizedPath } from '@/lib/languageStore';
+import { useSEO } from '@/hooks/useSEO';
 
 export default function SheetMusicListingPage() {
   const { series } = useParams<{ series: string }>();
@@ -17,6 +18,7 @@ export default function SheetMusicListingPage() {
   const { addingItemId, actions } = useCart();
   const { currency } = useCurrency();
   const { language } = useLanguageStore();
+  useSEO('sheet-music');
 
   useEffect(() => {
     loadScores();

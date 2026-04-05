@@ -1,5 +1,5 @@
 import { MemberProvider } from '@/integrations';
-import { createBrowserRouter, RouterProvider, Navigate, Outlet } from 'react-router-dom';
+import { createBrowserRouter, RouterProvider, Navigate, Outlet, useLocation } from 'react-router-dom';
 import { ScrollToTop } from '@/lib/scroll-to-top';
 import ErrorPage from '@/integrations/errorHandlers/ErrorPage';
 import HomePage from '@/components/pages/HomePage';
@@ -19,9 +19,19 @@ import RecordingsPage from '@/components/pages/RecordingsPage';
 import RecordingDetailPage from '@/components/pages/RecordingDetailPage';
 import SupportPage from '@/components/pages/SupportPage';
 import SponsorshipPage from '@/components/pages/SponsorshipPage';
+import { useLanguageStore, getLanguageFromPath } from '@/lib/languageStore';
+import { useEffect } from 'react';
 
 // Layout component that includes ScrollToTop
 function Layout() {
+  const location = useLocation();
+  const { initializeLanguage } = useLanguageStore();
+
+  useEffect(() => {
+    const language = getLanguageFromPath(location.pathname);
+    initializeLanguage(language);
+  }, [location.pathname, initializeLanguage]);
+
   return (
     <>
       <ScrollToTop />
@@ -38,78 +48,88 @@ const router = createBrowserRouter([
     children: [
       {
         index: true,
-        element: <HomePage />,
-        routeMetadata: {
-          pageIdentifier: 'home',
-        },
+        element: <Navigate to="/en" replace />,
       },
       {
-        path: "about",
-        element: <AboutPage />,
-      },
-      {
-        path: "mission-vision",
-        element: <MissionVisionPage />,
-      },
-      {
-        path: "music-director",
-        element: <MusicDirectorPage />,
-      },
-      {
-        path: "staff",
-        element: <StaffPage />,
-      },
-      {
-        path: "members",
-        element: <MembersPage />,
-      },
-      {
-        path: "upcoming-events",
-        element: <UpcomingEventsPage />,
-      },
-      {
-        path: "past-events",
-        element: <PastEventsPage />,
-      },
-      {
-        path: "event/:id",
-        element: <EventDetailPage />,
-      },
-      {
-        path: "concert/:id",
-        element: <ConcertDetailPage />,
-      },
-      {
-        path: "sheet-music",
-        element: <SheetMusicPage />,
-      },
-      {
-        path: "sheet-music/:series",
-        element: <SheetMusicListingPage />,
-      },
-      {
-        path: "score/:id",
-        element: <ScoreDetailPage />,
-      },
-      {
-        path: "recordings",
-        element: <RecordingsPage />,
-      },
-      {
-        path: "recording/:id",
-        element: <RecordingDetailPage />,
-      },
-      {
-        path: "support",
-        element: <SupportPage />,
-      },
-      {
-        path: "sponsorship",
-        element: <SponsorshipPage />,
+        path: ":lang",
+        element: <Layout />,
+        children: [
+          {
+            index: true,
+            element: <HomePage />,
+            routeMetadata: {
+              pageIdentifier: 'home',
+            },
+          },
+          {
+            path: "about",
+            element: <AboutPage />,
+          },
+          {
+            path: "mission-vision",
+            element: <MissionVisionPage />,
+          },
+          {
+            path: "music-director",
+            element: <MusicDirectorPage />,
+          },
+          {
+            path: "staff",
+            element: <StaffPage />,
+          },
+          {
+            path: "members",
+            element: <MembersPage />,
+          },
+          {
+            path: "upcoming-events",
+            element: <UpcomingEventsPage />,
+          },
+          {
+            path: "past-events",
+            element: <PastEventsPage />,
+          },
+          {
+            path: "event/:id",
+            element: <EventDetailPage />,
+          },
+          {
+            path: "concert/:id",
+            element: <ConcertDetailPage />,
+          },
+          {
+            path: "sheet-music",
+            element: <SheetMusicPage />,
+          },
+          {
+            path: "sheet-music/:series",
+            element: <SheetMusicListingPage />,
+          },
+          {
+            path: "score/:id",
+            element: <ScoreDetailPage />,
+          },
+          {
+            path: "recordings",
+            element: <RecordingsPage />,
+          },
+          {
+            path: "recording/:id",
+            element: <RecordingDetailPage />,
+          },
+          {
+            path: "support",
+            element: <SupportPage />,
+          },
+          {
+            path: "sponsorship",
+            element: <SponsorshipPage />,
+          },
+        ],
       },
       {
         path: "*",
-        element: <Navigate to="/" replace />,
+        element: <Navigate to="/en" replace />,
       },
     ],
   },

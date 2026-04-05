@@ -7,11 +7,13 @@ import Footer from '@/components/Footer';
 import { BaseCrudService } from '@/integrations';
 import { StaticDescriptions } from '@/entities';
 import { useLanguageStore } from '@/lib/languageStore';
+import { useSEO } from '@/hooks/useSEO';
 
 export default function MissionVisionPage() {
   const [content, setContent] = useState<StaticDescriptions | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const { language } = useLanguageStore();
+  useSEO('mission-vision');
 
   useEffect(() => {
     loadContent();
