@@ -176,6 +176,27 @@ export interface Contributors {
 
 
 /**
+ * Collection ID: donationprograms
+ * Interface for DonationPrograms
+ */
+export interface DonationPrograms {
+  _id: string;
+  _createdDate?: Date;
+  _updatedDate?: Date;
+  /** @wixFieldType text */
+  programNameEn?: string;
+  /** @wixFieldType text */
+  programNameZh?: string;
+  /** @wixFieldType text */
+  descriptionEn?: string;
+  /** @wixFieldType text */
+  descriptionZh?: string;
+  /** @wixFieldType image - Contains image URL, render with <Image> component, NOT as text */
+  programImage?: string;
+}
+
+
+/**
  * Collection ID: events
  * Interface for Events
  */
