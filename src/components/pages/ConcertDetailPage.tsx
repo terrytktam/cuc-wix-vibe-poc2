@@ -123,19 +123,93 @@ export default function ConcertDetailPage() {
                   className="grid grid-cols-1 lg:grid-cols-3 gap-12"
                 >
                   <div className="lg:col-span-2 space-y-12">
+                    {language === 'en' ? concert.introduction_en : concert.introduction_zh || concert.introduction_en ? (
+                      <div>
+                        <h2 className="font-heading text-4xl mb-6 text-foreground">
+                          {language === 'en' ? 'Introduction' : '介紹'}
+                        </h2>
+                        <div 
+                          className="text-lg leading-relaxed space-y-4"
+                          dangerouslySetInnerHTML={{ __html: language === 'en' ? (concert.introduction_en || '') : (concert.introduction_zh || concert.introduction_en || '') }}
+                        />
+                      </div>
+                    ) : null}
+
+                    {language === 'en' ? concert.programme_en : concert.programme_zh || concert.programme_en ? (
+                      <div>
+                        <h2 className="font-heading text-4xl mb-6 text-foreground">
+                          {language === 'en' ? 'Programme' : '節目'}
+                        </h2>
+                        <div 
+                          className="text-lg leading-relaxed space-y-4"
+                          dangerouslySetInnerHTML={{ __html: language === 'en' ? (concert.programme_en || '') : (concert.programme_zh || concert.programme_en || '') }}
+                        />
+                      </div>
+                    ) : null}
+
                     {language === 'en' ? concert.priceEn : concert.priceZh || concert.priceEn ? (
                       <div className="border border-muted-grey p-8">
                         <h2 className="font-heading text-3xl mb-4 text-primary">
                           {language === 'en' ? 'Ticket Information' : '票務信息'}
                         </h2>
-                        <p className="text-lg mb-4">
-                          {language === 'en' ? concert.priceEn : concert.priceZh || concert.priceEn}
-                        </p>
+                        <div 
+                          className="text-lg leading-relaxed space-y-4"
+                          dangerouslySetInnerHTML={{ __html: language === 'en' ? (concert.priceEn || '') : (concert.priceZh || concert.priceEn || '') }}
+                        />
                         {language === 'en' ? concert.seatingEn : concert.seatingZh || concert.seatingEn ? (
-                          <p className="text-base text-foreground opacity-80">
-                            {language === 'en' ? concert.seatingEn : concert.seatingZh || concert.seatingEn}
-                          </p>
+                          <div 
+                            className="text-base text-foreground opacity-80 mt-4"
+                            dangerouslySetInnerHTML={{ __html: language === 'en' ? (concert.seatingEn || '') : (concert.seatingZh || concert.seatingEn || '') }}
+                          />
                         ) : null}
+                      </div>
+                    ) : null}
+
+                    {language === 'en' ? concert.concessionDiscount_en : concert.concessionDiscount_zh || concert.concessionDiscount_en ? (
+                      <div className="border border-muted-grey p-8">
+                        <h2 className="font-heading text-3xl mb-4 text-primary">
+                          {language === 'en' ? 'Concession Discount' : '優惠折扣'}
+                        </h2>
+                        <div 
+                          className="text-base leading-relaxed space-y-4"
+                          dangerouslySetInnerHTML={{ __html: language === 'en' ? (concert.concessionDiscount_en || '') : (concert.concessionDiscount_zh || concert.concessionDiscount_en || '') }}
+                        />
+                      </div>
+                    ) : null}
+
+                    {language === 'en' ? concert.enquiry_en : concert.enquiry_zh || concert.enquiry_en ? (
+                      <div className="border border-muted-grey p-8">
+                        <h2 className="font-heading text-3xl mb-4 text-primary">
+                          {language === 'en' ? 'Enquiry' : '查詢'}
+                        </h2>
+                        <div 
+                          className="text-base leading-relaxed space-y-4"
+                          dangerouslySetInnerHTML={{ __html: language === 'en' ? (concert.enquiry_en || '') : (concert.enquiry_zh || concert.enquiry_en || '') }}
+                        />
+                      </div>
+                    ) : null}
+
+                    {language === 'en' ? concert.remark_en : concert.remark_zh || concert.remark_en ? (
+                      <div className="border border-muted-grey p-8">
+                        <h2 className="font-heading text-3xl mb-4 text-primary">
+                          {language === 'en' ? 'Remarks' : '備註'}
+                        </h2>
+                        <div 
+                          className="text-base leading-relaxed space-y-4"
+                          dangerouslySetInnerHTML={{ __html: language === 'en' ? (concert.remark_en || '') : (concert.remark_zh || concert.remark_en || '') }}
+                        />
+                      </div>
+                    ) : null}
+
+                    {language === 'en' ? concert.boxOfficeRemark_en : concert.boxOfficeRemark_zh || concert.boxOfficeRemark_en ? (
+                      <div className="border border-muted-grey p-8">
+                        <h2 className="font-heading text-3xl mb-4 text-primary">
+                          {language === 'en' ? 'Box Office Remarks' : '售票處備註'}
+                        </h2>
+                        <div 
+                          className="text-base leading-relaxed space-y-4"
+                          dangerouslySetInnerHTML={{ __html: language === 'en' ? (concert.boxOfficeRemark_en || '') : (concert.boxOfficeRemark_zh || concert.boxOfficeRemark_en || '') }}
+                        />
                       </div>
                     ) : null}
 

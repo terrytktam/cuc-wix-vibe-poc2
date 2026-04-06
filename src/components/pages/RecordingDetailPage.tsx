@@ -174,26 +174,38 @@ export default function RecordingDetailPage() {
                     )}
                   </div>
 
-                  {language === 'en' ? recording.introductionEn : recording.introductionZh || recording.introductionEn ? (
+                  {language === 'en' ? recording.introduction_en : recording.introduction_zh || recording.introduction_en ? (
                     <div className="mb-8">
                       <h2 className="font-heading text-3xl mb-4 text-foreground">
                         {language === 'en' ? 'About' : '關於'}
                       </h2>
                       <div 
                         className="text-lg leading-relaxed space-y-4"
-                        dangerouslySetInnerHTML={{ __html: language === 'en' ? (recording.introductionEn || '') : (recording.introductionZh || recording.introductionEn || '') }}
+                        dangerouslySetInnerHTML={{ __html: language === 'en' ? (recording.introduction_en || '') : (recording.introduction_zh || recording.introduction_en || '') }}
                       />
                     </div>
                   ) : null}
 
-                  {language === 'en' ? recording.songlistEn : recording.songlistZh || recording.songlistEn ? (
+                  {language === 'en' ? recording.songlist_en : recording.songlist_zh || recording.songlist_en ? (
                     <div className="mb-8">
                       <h2 className="font-heading text-3xl mb-4 text-foreground">
                         {language === 'en' ? 'Track List' : '曲目列表'}
                       </h2>
                       <div 
                         className="text-base leading-relaxed space-y-2"
-                        dangerouslySetInnerHTML={{ __html: language === 'en' ? (recording.songlistEn || '') : (recording.songlistZh || recording.songlistEn || '') }}
+                        dangerouslySetInnerHTML={{ __html: language === 'en' ? (recording.songlist_en || '') : (recording.songlist_zh || recording.songlist_en || '') }}
+                      />
+                    </div>
+                  ) : null}
+
+                  {language === 'en' ? recording.recording_en : recording.recording_zh || recording.recording_en ? (
+                    <div className="mb-8">
+                      <h2 className="font-heading text-3xl mb-4 text-foreground">
+                        {language === 'en' ? 'Recording Details' : '錄音詳情'}
+                      </h2>
+                      <div 
+                        className="text-base leading-relaxed space-y-2"
+                        dangerouslySetInnerHTML={{ __html: language === 'en' ? (recording.recording_en || '') : (recording.recording_zh || recording.recording_en || '') }}
                       />
                     </div>
                   ) : null}
@@ -234,6 +246,39 @@ export default function RecordingDetailPage() {
                         className="flex items-center justify-center gap-2 bg-transparent text-foreground border border-foreground px-6 py-3 text-lg transition-all duration-300 hover:bg-foreground hover:text-background w-full"
                       >
                         {language === 'en' ? 'Listen on Spotify' : '在 Spotify 上聆聽'}
+                        <ExternalLink size={18} />
+                      </a>
+                    )}
+                    {recording.appleMusicUrl && (
+                      <a
+                        href={recording.appleMusicUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="flex items-center justify-center gap-2 bg-transparent text-foreground border border-foreground px-6 py-3 text-lg transition-all duration-300 hover:bg-foreground hover:text-background w-full"
+                      >
+                        {language === 'en' ? 'Listen on Apple Music' : '在 Apple Music 上聆聽'}
+                        <ExternalLink size={18} />
+                      </a>
+                    )}
+                    {recording.youtubeUrl && (
+                      <a
+                        href={recording.youtubeUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="flex items-center justify-center gap-2 bg-transparent text-foreground border border-foreground px-6 py-3 text-lg transition-all duration-300 hover:bg-foreground hover:text-background w-full"
+                      >
+                        {language === 'en' ? 'Watch on YouTube' : '在 YouTube 上觀看'}
+                        <ExternalLink size={18} />
+                      </a>
+                    )}
+                    {recording.kkBoxUrl && (
+                      <a
+                        href={recording.kkBoxUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="flex items-center justify-center gap-2 bg-transparent text-foreground border border-foreground px-6 py-3 text-lg transition-all duration-300 hover:bg-foreground hover:text-background w-full"
+                      >
+                        {language === 'en' ? 'Listen on KKBox' : '在 KKBox 上聆聽'}
                         <ExternalLink size={18} />
                       </a>
                     )}

@@ -90,10 +90,10 @@ export default function EventDetailPage() {
                   ) : null}
 
                   <div className="flex flex-wrap gap-6 mb-8">
-                    {language === 'en' ? event.dateTimeVenueEn : event.dateTimeVenueZh || event.dateTimeVenueEn ? (
+                    {language === 'en' ? event.dateTimeVenue_en : event.dateTimeVenue_zh || event.dateTimeVenue_en ? (
                       <div 
                         className="text-lg"
-                        dangerouslySetInnerHTML={{ __html: language === 'en' ? event.dateTimeVenueEn || '' : event.dateTimeVenueZh || event.dateTimeVenueEn || '' }}
+                        dangerouslySetInnerHTML={{ __html: language === 'en' ? event.dateTimeVenue_en || '' : event.dateTimeVenue_zh || event.dateTimeVenue_en || '' }}
                       />
                     ) : null}
                   </div>
@@ -118,38 +118,50 @@ export default function EventDetailPage() {
                   className="grid grid-cols-1 lg:grid-cols-3 gap-12"
                 >
                   <div className="lg:col-span-2 space-y-12">
-                    {language === 'en' ? event.introductionEn : event.introductionZh || event.introductionEn ? (
+                    {language === 'en' ? event.introduction_en : event.introduction_zh || event.introduction_en ? (
                       <div>
                         <h2 className="font-heading text-4xl mb-6 text-foreground">
                           {language === 'en' ? 'Introduction' : '介紹'}
                         </h2>
                         <div 
                           className="text-lg leading-relaxed space-y-4"
-                          dangerouslySetInnerHTML={{ __html: language === 'en' ? (event.introductionEn || '') : (event.introductionZh || event.introductionEn || '') }}
+                          dangerouslySetInnerHTML={{ __html: language === 'en' ? (event.introduction_en || '') : (event.introduction_zh || event.introduction_en || '') }}
                         />
                       </div>
                     ) : null}
 
-                    {language === 'en' ? event.targetsEn : event.targetsZh || event.targetsEn ? (
+                    {language === 'en' ? event.targets_en : event.targets_zh || event.targets_en ? (
                       <div>
                         <h2 className="font-heading text-4xl mb-6 text-foreground">
                           {language === 'en' ? 'Target Audience' : '目標受眾'}
                         </h2>
                         <div 
                           className="text-lg leading-relaxed space-y-4"
-                          dangerouslySetInnerHTML={{ __html: language === 'en' ? (event.targetsEn || '') : (event.targetsZh || event.targetsEn || '') }}
+                          dangerouslySetInnerHTML={{ __html: language === 'en' ? (event.targets_en || '') : (event.targets_zh || event.targets_en || '') }}
                         />
                       </div>
                     ) : null}
 
-                    {language === 'en' ? event.courseContentEn : event.courseContentZh || event.courseContentEn ? (
+                    {language === 'en' ? event.courseContent_en : event.courseContent_zh || event.courseContent_en ? (
                       <div>
                         <h2 className="font-heading text-4xl mb-6 text-foreground">
                           {language === 'en' ? 'Course Content' : '課程內容'}
                         </h2>
                         <div 
                           className="text-lg leading-relaxed space-y-4"
-                          dangerouslySetInnerHTML={{ __html: language === 'en' ? (event.courseContentEn || '') : (event.courseContentZh || event.courseContentEn || '') }}
+                          dangerouslySetInnerHTML={{ __html: language === 'en' ? (event.courseContent_en || '') : (event.courseContent_zh || event.courseContent_en || '') }}
+                        />
+                      </div>
+                    ) : null}
+
+                    {language === 'en' ? event.setPieces_en : event.setPieces_zh || event.setPieces_en ? (
+                      <div>
+                        <h2 className="font-heading text-4xl mb-6 text-foreground">
+                          {language === 'en' ? 'Set Pieces' : '指定曲目'}
+                        </h2>
+                        <div 
+                          className="text-lg leading-relaxed space-y-4"
+                          dangerouslySetInnerHTML={{ __html: language === 'en' ? (event.setPieces_en || '') : (event.setPieces_zh || event.setPieces_en || '') }}
                         />
                       </div>
                     ) : null}
@@ -305,38 +317,74 @@ export default function EventDetailPage() {
                   </div>
 
                   <div className="space-y-8">
-                    {language === 'en' ? event.priceEn : event.priceZh || event.priceEn ? (
+                    {language === 'en' ? event.price_en : event.price_zh || event.price_en ? (
                       <div className="border border-muted-grey p-6">
                         <h3 className="font-heading text-2xl mb-4 text-primary">
                           {language === 'en' ? 'Price' : '價格'}
                         </h3>
                         <div 
                           className="text-base leading-relaxed"
-                          dangerouslySetInnerHTML={{ __html: language === 'en' ? (event.priceEn || '') : (event.priceZh || event.priceEn || '') }}
+                          dangerouslySetInnerHTML={{ __html: language === 'en' ? (event.price_en || '') : (event.price_zh || event.price_en || '') }}
                         />
                       </div>
                     ) : null}
 
-                    {language === 'en' ? event.deadlineEn : event.deadlineZh || event.deadlineEn ? (
+                    {language === 'en' ? event.quotaDeadline_en : event.quotaDeadline_zh || event.quotaDeadline_en ? (
                       <div className="border border-muted-grey p-6">
                         <h3 className="font-heading text-2xl mb-4 text-primary">
                           {language === 'en' ? 'Deadline' : '截止日期'}
                         </h3>
                         <div 
                           className="text-base leading-relaxed"
-                          dangerouslySetInnerHTML={{ __html: language === 'en' ? (event.deadlineEn || '') : (event.deadlineZh || event.deadlineEn || '') }}
+                          dangerouslySetInnerHTML={{ __html: language === 'en' ? (event.quotaDeadline_en || '') : (event.quotaDeadline_zh || event.quotaDeadline_en || '') }}
                         />
                       </div>
                     ) : null}
 
-                    {language === 'en' ? event.applicationMethodEn : event.applicationMethodZh || event.applicationMethodEn ? (
+                    {language === 'en' ? event.applicationMethod_en : event.applicationMethod_zh || event.applicationMethod_en ? (
                       <div className="border border-muted-grey p-6">
                         <h3 className="font-heading text-2xl mb-4 text-primary">
                           {language === 'en' ? 'Application' : '申請'}
                         </h3>
                         <div 
                           className="text-base leading-relaxed"
-                          dangerouslySetInnerHTML={{ __html: language === 'en' ? (event.applicationMethodEn || '') : (event.applicationMethodZh || event.applicationMethodEn || '') }}
+                          dangerouslySetInnerHTML={{ __html: language === 'en' ? (event.applicationMethod_en || '') : (event.applicationMethod_zh || event.applicationMethod_en || '') }}
+                        />
+                      </div>
+                    ) : null}
+
+                    {language === 'en' ? event.concessionDiscount_en : event.concessionDiscount_zh || event.concessionDiscount_en ? (
+                      <div className="border border-muted-grey p-6">
+                        <h3 className="font-heading text-2xl mb-4 text-primary">
+                          {language === 'en' ? 'Concession Discount' : '優惠折扣'}
+                        </h3>
+                        <div 
+                          className="text-base leading-relaxed"
+                          dangerouslySetInnerHTML={{ __html: language === 'en' ? (event.concessionDiscount_en || '') : (event.concessionDiscount_zh || event.concessionDiscount_en || '') }}
+                        />
+                      </div>
+                    ) : null}
+
+                    {language === 'en' ? event.enquiry_en : event.enquiry_zh || event.enquiry_en ? (
+                      <div className="border border-muted-grey p-6">
+                        <h3 className="font-heading text-2xl mb-4 text-primary">
+                          {language === 'en' ? 'Enquiry' : '查詢'}
+                        </h3>
+                        <div 
+                          className="text-base leading-relaxed"
+                          dangerouslySetInnerHTML={{ __html: language === 'en' ? (event.enquiry_en || '') : (event.enquiry_zh || event.enquiry_en || '') }}
+                        />
+                      </div>
+                    ) : null}
+
+                    {language === 'en' ? event.remark_en : event.remark_zh || event.remark_en ? (
+                      <div className="border border-muted-grey p-6">
+                        <h3 className="font-heading text-2xl mb-4 text-primary">
+                          {language === 'en' ? 'Remarks' : '備註'}
+                        </h3>
+                        <div 
+                          className="text-base leading-relaxed"
+                          dangerouslySetInnerHTML={{ __html: language === 'en' ? (event.remark_en || '') : (event.remark_zh || event.remark_en || '') }}
                         />
                       </div>
                     ) : null}

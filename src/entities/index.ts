@@ -23,6 +23,16 @@ export interface Biographies {
   descriptionEn?: string;
   /** @wixFieldType image - Contains image URL, render with <Image> component, NOT as text */
   portraitImage?: string;
+  /** @wixFieldType rich_text */
+  description_zh?: any;
+  /** @wixFieldType rich_text */
+  description_en?: any;
+  /** @wixFieldType text */
+  wixImage?: string;
+  /** @wixFieldType text */
+  name_zh?: string;
+  /** @wixFieldType text */
+  name_en?: string;
 }
 
 
@@ -97,6 +107,50 @@ export interface Concerts {
   seatingZh?: string;
   /** @wixFieldType text */
   seatingEn?: string;
+  /** @wixFieldType rich_text */
+  introduction_zh?: any;
+  /** @wixFieldType rich_text */
+  introduction_en?: any;
+  /** @wixFieldType rich_text */
+  programme_zh?: any;
+  /** @wixFieldType rich_text */
+  programme_en?: any;
+  /** @wixFieldType document */
+  wixDocument?: string;
+  /** @wixFieldType image - Contains image URL, render with <Image> component, NOT as text */
+  wixImage?: string;
+  /** @wixFieldType url */
+  ticketingUrl?: string;
+  /** @wixFieldType url */
+  houseProgrammeUrl?: string;
+  /** @wixFieldType url */
+  youtubeUrl?: string;
+  /** @wixFieldType rich_text */
+  remark_zh?: any;
+  /** @wixFieldType rich_text */
+  remark_en?: any;
+  /** @wixFieldType reference */
+  biographies?: Biographies;
+  /** @wixFieldType reference */
+  contributors?: Contributors;
+  /** @wixFieldType reference */
+  mentions?: Mentions;
+  /** @wixFieldType reference */
+  series?: ConcertEventSeries;
+  /** @wixFieldType rich_text */
+  concessionDiscount_zh?: any;
+  /** @wixFieldType rich_text */
+  concessionDiscount_en?: any;
+  /** @wixFieldType rich_text */
+  enquiry_zh?: any;
+  /** @wixFieldType rich_text */
+  enquiry_en?: any;
+  /** @wixFieldType reference */
+  relations?: Relationships;
+  /** @wixFieldType rich_text */
+  boxOfficeRemark_zh?: any;
+  /** @wixFieldType rich_text */
+  boxOfficeRemark_en?: any;
 }
 
 
@@ -169,6 +223,68 @@ export interface Events {
   deadlineZh?: string;
   /** @wixFieldType text */
   deadlineEn?: string;
+  /** @wixFieldType rich_text */
+  dateTimeVenue_zh?: any;
+  /** @wixFieldType rich_text */
+  dateTimeVenue_en?: any;
+  /** @wixFieldType rich_text */
+  price_zh?: any;
+  /** @wixFieldType rich_text */
+  price_en?: any;
+  /** @wixFieldType rich_text */
+  quotaDeadline_en?: any;
+  /** @wixFieldType rich_text */
+  quotaDeadline_zh?: any;
+  /** @wixFieldType rich_text */
+  targets_en?: any;
+  /** @wixFieldType rich_text */
+  targets_zh?: any;
+  /** @wixFieldType rich_text */
+  introduction_zh?: any;
+  /** @wixFieldType rich_text */
+  introduction_en?: any;
+  /** @wixFieldType rich_text */
+  courseContent_zh?: any;
+  /** @wixFieldType rich_text */
+  courseContent_en?: any;
+  /** @wixFieldType rich_text */
+  setPieces_zh?: any;
+  /** @wixFieldType rich_text */
+  setPieces_en?: any;
+  /** @wixFieldType url */
+  setPiecesPreviewUrl?: string;
+  /** @wixFieldType rich_text */
+  applicationMethod_zh?: any;
+  /** @wixFieldType rich_content */
+  applicationMethod_en?: any;
+  /** @wixFieldType url */
+  registrationUrl?: string;
+  /** @wixFieldType document */
+  wixDocument?: string;
+  /** @wixFieldType image - Contains image URL, render with <Image> component, NOT as text */
+  wixImage?: string;
+  /** @wixFieldType rich_text */
+  concessionDiscount_zh?: any;
+  /** @wixFieldType rich_text */
+  concessionDiscount_en?: any;
+  /** @wixFieldType rich_text */
+  enquiry_zh?: any;
+  /** @wixFieldType rich_text */
+  enquiry_en?: any;
+  /** @wixFieldType rich_text */
+  remark_zh?: any;
+  /** @wixFieldType rich_text */
+  remark_en?: any;
+  /** @wixFieldType reference */
+  series?: ConcertEventSeries;
+  /** @wixFieldType reference */
+  biographies?: Biographies;
+  /** @wixFieldType reference */
+  contributors?: Contributors;
+  /** @wixFieldType reference */
+  mentions?: Mentions;
+  /** @wixFieldType reference */
+  relations?: Relationships;
 }
 
 
@@ -192,6 +308,10 @@ export interface ExcoStaffs {
   email?: string;
   /** @wixFieldType text */
   year?: string;
+  /** @wixFieldType text */
+  organization_zh?: string;
+  /** @wixFieldType text */
+  organization_en?: string;
 }
 
 
@@ -236,6 +356,8 @@ export interface ChorusMembers {
   email?: string;
   /** @wixFieldType text */
   yearJoined?: string;
+  /** @wixFieldType text */
+  year?: string;
 }
 
 
@@ -259,6 +381,8 @@ export interface Mentions {
   url?: string;
   /** @wixFieldType text */
   text?: string;
+  /** @wixFieldType text */
+  recordings_mentions?: string;
 }
 
 
@@ -315,6 +439,26 @@ export interface Recordings {
   purchaseUrl?: string;
   /** @wixFieldType url */
   spotifyUrl?: string;
+  /** @wixFieldType rich_text */
+  introduction_zh?: any;
+  /** @wixFieldType rich_text */
+  introduction_en?: any;
+  /** @wixFieldType rich_text */
+  songlist_zh?: any;
+  /** @wixFieldType rich_text */
+  songlist_en?: any;
+  /** @wixFieldType rich_text */
+  recording_zh?: any;
+  /** @wixFieldType rich_text */
+  recording_en?: any;
+  /** @wixFieldType image - Contains image URL, render with <Image> component, NOT as text */
+  wixImage?: string;
+  /** @wixFieldType url */
+  appleMusicUrl?: string;
+  /** @wixFieldType url */
+  youtubeUrl?: string;
+  /** @wixFieldType url */
+  kkBoxUrl?: string;
 }
 
 
@@ -399,6 +543,8 @@ export interface SheetMusicCatalog {
   demoUrl?: string;
   /** @wixFieldType url */
   previewUrl?: string;
+  /** @wixFieldType text */
+  scoreId?: string;
 }
 
 
@@ -455,6 +601,8 @@ export interface Songs {
   singerZh?: string;
   /** @wixFieldType text */
   singerEn?: string;
+  /** @wixFieldType text */
+  title?: string;
 }
 
 
@@ -478,6 +626,10 @@ export interface StaticDescriptions {
   descriptionEn?: string;
   /** @wixFieldType image - Contains image URL, render with <Image> component, NOT as text */
   pageImage?: string;
+  /** @wixFieldType rich_text */
+  description_zh?: any;
+  /** @wixFieldType rich_text */
+  description_en?: any;
 }
 
 
