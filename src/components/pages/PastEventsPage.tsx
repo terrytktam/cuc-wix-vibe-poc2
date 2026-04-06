@@ -94,7 +94,7 @@ export default function PastEventsPage() {
                       transition={{ duration: 0.6, delay: index * 0.1 }}
                     >
                       <Link 
-                        to={`/${isEvent ? 'event' : 'concert'}/${item._id}`}
+                        to={`/${language}/${isEvent ? 'event' : 'concert'}/${item._id}`}
                         className="group block"
                       >
                         <div className="relative aspect-[4/5] mb-6 overflow-hidden">

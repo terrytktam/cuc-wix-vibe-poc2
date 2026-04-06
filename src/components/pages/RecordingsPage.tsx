@@ -74,7 +74,7 @@ export default function RecordingsPage() {
                       animate={{ opacity: 1, y: 0 }}
                       transition={{ duration: 0.6, delay: index * 0.05 }}
                     >
-                      <Link to={`/recording/${recording._id}`} className="group block">
+                      <Link to={`/${language}/recording/${recording._id}`} className="group block">
                         <div className="relative aspect-square mb-4 overflow-hidden">
                           <Image
                             src={recording.itemImage || 'https://static.wixstatic.com/media/c418c8_06f60772399a489193a730c7da4dd1c0~mv2.png?originWidth=384&originHeight=384'}
