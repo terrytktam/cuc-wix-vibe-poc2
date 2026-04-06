@@ -10,6 +10,7 @@ import { BaseCrudService } from '@/integrations';
 import { Concerts, Contributors, Mentions, Biographies, Relationships } from '@/entities';
 import { useLanguageStore } from '@/lib/languageStore';
 import { useSEO } from '@/hooks/useSEO';
+import { parseRichText } from '@/lib/richTextParser';
 
 export default function ConcertDetailPage() {
   const { id } = useParams<{ id: string }>();
@@ -130,7 +131,7 @@ export default function ConcertDetailPage() {
                         </h2>
                         <div 
                           className="text-lg leading-relaxed space-y-4"
-                          dangerouslySetInnerHTML={{ __html: language === 'en' ? (concert.introduction_en || '') : (concert.introduction_zh || concert.introduction_en || '') }}
+                          dangerouslySetInnerHTML={{ __html: parseRichText(language === 'en' ? (concert.introduction_en || '') : (concert.introduction_zh || concert.introduction_en || '')) }}
                         />
                       </div>
                     ) : null}
@@ -142,7 +143,7 @@ export default function ConcertDetailPage() {
                         </h2>
                         <div 
                           className="text-lg leading-relaxed space-y-4"
-                          dangerouslySetInnerHTML={{ __html: language === 'en' ? (concert.programme_en || '') : (concert.programme_zh || concert.programme_en || '') }}
+                          dangerouslySetInnerHTML={{ __html: parseRichText(language === 'en' ? (concert.programme_en || '') : (concert.programme_zh || concert.programme_en || '')) }}
                         />
                       </div>
                     ) : null}
@@ -154,12 +155,12 @@ export default function ConcertDetailPage() {
                         </h2>
                         <div 
                           className="text-lg leading-relaxed space-y-4"
-                          dangerouslySetInnerHTML={{ __html: language === 'en' ? (concert.priceEn || '') : (concert.priceZh || concert.priceEn || '') }}
+                          dangerouslySetInnerHTML={{ __html: parseRichText(language === 'en' ? (concert.priceEn || '') : (concert.priceZh || concert.priceEn || '')) }}
                         />
                         {language === 'en' ? concert.seatingEn : concert.seatingZh || concert.seatingEn ? (
                           <div 
                             className="text-base text-foreground opacity-80 mt-4"
-                            dangerouslySetInnerHTML={{ __html: language === 'en' ? (concert.seatingEn || '') : (concert.seatingZh || concert.seatingEn || '') }}
+                            dangerouslySetInnerHTML={{ __html: parseRichText(language === 'en' ? (concert.seatingEn || '') : (concert.seatingZh || concert.seatingEn || '')) }}
                           />
                         ) : null}
                       </div>
@@ -172,7 +173,7 @@ export default function ConcertDetailPage() {
                         </h2>
                         <div 
                           className="text-base leading-relaxed space-y-4"
-                          dangerouslySetInnerHTML={{ __html: language === 'en' ? (concert.concessionDiscount_en || '') : (concert.concessionDiscount_zh || concert.concessionDiscount_en || '') }}
+                          dangerouslySetInnerHTML={{ __html: parseRichText(language === 'en' ? (concert.concessionDiscount_en || '') : (concert.concessionDiscount_zh || concert.concessionDiscount_en || '')) }}
                         />
                       </div>
                     ) : null}
@@ -184,7 +185,7 @@ export default function ConcertDetailPage() {
                         </h2>
                         <div 
                           className="text-base leading-relaxed space-y-4"
-                          dangerouslySetInnerHTML={{ __html: language === 'en' ? (concert.enquiry_en || '') : (concert.enquiry_zh || concert.enquiry_en || '') }}
+                          dangerouslySetInnerHTML={{ __html: parseRichText(language === 'en' ? (concert.enquiry_en || '') : (concert.enquiry_zh || concert.enquiry_en || '')) }}
                         />
                       </div>
                     ) : null}
@@ -196,7 +197,7 @@ export default function ConcertDetailPage() {
                         </h2>
                         <div 
                           className="text-base leading-relaxed space-y-4"
-                          dangerouslySetInnerHTML={{ __html: language === 'en' ? (concert.remark_en || '') : (concert.remark_zh || concert.remark_en || '') }}
+                          dangerouslySetInnerHTML={{ __html: parseRichText(language === 'en' ? (concert.remark_en || '') : (concert.remark_zh || concert.remark_en || '')) }}
                         />
                       </div>
                     ) : null}
@@ -208,7 +209,7 @@ export default function ConcertDetailPage() {
                         </h2>
                         <div 
                           className="text-base leading-relaxed space-y-4"
-                          dangerouslySetInnerHTML={{ __html: language === 'en' ? (concert.boxOfficeRemark_en || '') : (concert.boxOfficeRemark_zh || concert.boxOfficeRemark_en || '') }}
+                          dangerouslySetInnerHTML={{ __html: parseRichText(language === 'en' ? (concert.boxOfficeRemark_en || '') : (concert.boxOfficeRemark_zh || concert.boxOfficeRemark_en || '')) }}
                         />
                       </div>
                     ) : null}

@@ -11,6 +11,7 @@ import { BaseCrudService } from '@/integrations';
 import { Recordings, Contributors, Mentions, RecordTypes, RecordingMediums } from '@/entities';
 import { useLanguageStore } from '@/lib/languageStore';
 import { useSEO } from '@/hooks/useSEO';
+import { parseRichText } from '@/lib/richTextParser';
 
 export default function RecordingDetailPage() {
   const { id } = useParams<{ id: string }>();
@@ -181,7 +182,7 @@ export default function RecordingDetailPage() {
                       </h2>
                       <div 
                         className="text-lg leading-relaxed space-y-4"
-                        dangerouslySetInnerHTML={{ __html: language === 'en' ? (recording.introduction_en || '') : (recording.introduction_zh || recording.introduction_en || '') }}
+                        dangerouslySetInnerHTML={{ __html: parseRichText(language === 'en' ? (recording.introduction_en || '') : (recording.introduction_zh || recording.introduction_en || '')) }}
                       />
                     </div>
                   ) : null}
@@ -193,7 +194,7 @@ export default function RecordingDetailPage() {
                       </h2>
                       <div 
                         className="text-base leading-relaxed space-y-2"
-                        dangerouslySetInnerHTML={{ __html: language === 'en' ? (recording.songlist_en || '') : (recording.songlist_zh || recording.songlist_en || '') }}
+                        dangerouslySetInnerHTML={{ __html: parseRichText(language === 'en' ? (recording.songlist_en || '') : (recording.songlist_zh || recording.songlist_en || '')) }}
                       />
                     </div>
                   ) : null}
@@ -205,7 +206,7 @@ export default function RecordingDetailPage() {
                       </h2>
                       <div 
                         className="text-base leading-relaxed space-y-2"
-                        dangerouslySetInnerHTML={{ __html: language === 'en' ? (recording.recording_en || '') : (recording.recording_zh || recording.recording_en || '') }}
+                        dangerouslySetInnerHTML={{ __html: parseRichText(language === 'en' ? (recording.recording_en || '') : (recording.recording_zh || recording.recording_en || '')) }}
                       />
                     </div>
                   ) : null}

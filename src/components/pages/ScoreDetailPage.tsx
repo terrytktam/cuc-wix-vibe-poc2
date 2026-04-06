@@ -11,6 +11,7 @@ import { BaseCrudService } from '@/integrations';
 import { SheetMusicCatalog, Songs } from '@/entities';
 import { useLanguageStore } from '@/lib/languageStore';
 import { useSEO } from '@/hooks/useSEO';
+import { parseRichText } from '@/lib/richTextParser';
 
 export default function ScoreDetailPage() {
   const { id } = useParams<{ id: string }>();
