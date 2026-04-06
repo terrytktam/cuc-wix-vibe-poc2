@@ -7,14 +7,18 @@ import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import Cart from '@/components/Cart';
 import { BaseCrudService } from '@/integrations';
-import { SheetMusicCatalog } from '@/entities';
+import { SheetMusicCatalog, StaticDescriptions } from '@/entities';
 import { useLanguageStore, buildLocalizedPath } from '@/lib/languageStore';
 import { useSEO } from '@/hooks/useSEO';
+import { Input } from '@/components/ui/input';
 
 export default function SheetMusicListingPage() {
   const { series } = useParams<{ series: string }>();
   const [scores, setScores] = useState<SheetMusicCatalog[]>([]);
+  const [filteredScores, setFilteredScores] = useState<SheetMusicCatalog[]>([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [searchQuery, setSearchQuery] = useState('');
+  const [description, setDescription] = useState<StaticDescriptions | null>(null);
   const { addingItemId, actions } = useCart();
   const { currency } = useCurrency();
   const { language } = useLanguageStore();
@@ -22,7 +26,28 @@ export default function SheetMusicListingPage() {
 
   useEffect(() => {
     loadScores();
+    loadDescription();
   }, [series]);
+
+  useEffect(() => {
+    const filtered = scores.filter(score => 
+      score.itemName?.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      score.voicing?.toLowerCase().includes(searchQuery.toLowerCase())
+    );
+    setFilteredScores(filtered);
+  }, [searchQuery, scores]);
+
+  const loadDescription = async () => {
+    try {
+      const { items } = await BaseCrudService.getAll<StaticDescriptions>('staticdescriptions');
+      const pageDescription = items.find(item => 
+        item.page?.toLowerCase() === `sheet-music-${series}`.toLowerCase()
+      );
+      setDescription(pageDescription || null);
+    } catch (error) {
+      console.error('Error loading description:', error);
+    }
+  };
 
   const loadScores = async () => {
     try {
@@ -32,6 +57,7 @@ export default function SheetMusicListingPage() {
         score.series?.toLowerCase() === series?.toLowerCase()
       );
       setScores(filteredScores);
+      setFilteredScores(filteredScores);
     } catch (error) {
       console.error('Error loading scores:', error);
     } finally {
@@ -67,23 +93,52 @@ export default function SheetMusicListingPage() {
             <h1 className="font-heading text-6xl md:text-7xl lg:text-8xl mb-8 text-foreground">
               {getSeriesTitle()}
             </h1>
-            <p className="text-xl md:text-2xl max-w-4xl mx-auto leading-relaxed">
-              {language === 'en' ? 'Browse our collection of choral scores' : '瀏覽我們的合唱樂譜集合'}
-            </p>
+            {description && (
+              <div className="mb-8">
+                <p className="text-xl md:text-2xl max-w-4xl mx-auto leading-relaxed">
+                  {language === 'en' ? description.descriptionEn : description.descriptionZh}
+                </p>
+              </div>
+            )}
+            {!description && (
+              <p className="text-xl md:text-2xl max-w-4xl mx-auto leading-relaxed">
+                {language === 'en' ? 'Browse our collection of choral scores' : '瀏覽我們的合唱樂譜集合'}
+              </p>
+            )}
           </motion.div>
+
+          {!isLoading && scores.length > 0 && (
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6 }}
+              className="mb-12"
+            >
+              <Input
+                type="text"
+                placeholder={language === 'en' ? 'Search scores...' : '搜尋樂譜...'}
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                className="w-full max-w-md mx-auto block bg-secondary text-foreground border-primary placeholder:text-foreground placeholder:opacity-50"
+              />
+            </motion.div>
+          )}
 
           <div className="min-h-[40vh]">
             {isLoading ? (
               null
-            ) : scores.length === 0 ? (
+            ) : filteredScores.length === 0 ? (
               <div className="text-center py-20">
                 <p className="text-xl">
-                  {language === 'en' ? 'No scores available in this series' : '此系列中沒有可用的樂譜'}
+                  {searchQuery 
+                    ? (language === 'en' ? 'No scores match your search' : '沒有符合您搜尋的樂譜')
+                    : (language === 'en' ? 'No scores available in this series' : '此系列中沒有可用的樂譜')
+                  }
                 </p>
               </div>
             ) : (
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-12">
-                {scores.map((score, index) => {
+                {filteredScores.map((score, index) => {
                   const isAdding = addingItemId === score._id;
                   
                   return (

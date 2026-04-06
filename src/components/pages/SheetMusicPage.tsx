@@ -1,3 +1,4 @@
+import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { Image } from '@/components/ui/image';
@@ -5,10 +6,35 @@ import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import { useLanguageStore, buildLocalizedPath } from '@/lib/languageStore';
 import { useSEO } from '@/hooks/useSEO';
+import { BaseCrudService } from '@/integrations';
+import { StaticDescriptions } from '@/entities';
 
 export default function SheetMusicPage() {
   const { language } = useLanguageStore();
+  const [descriptions, setDescriptions] = useState<Record<string, StaticDescriptions | null>>({});
   useSEO('sheet-music');
+
+  useEffect(() => {
+    loadDescriptions();
+  }, []);
+
+  const loadDescriptions = async () => {
+    try {
+      const { items } = await BaseCrudService.getAll<StaticDescriptions>('staticdescriptions');
+      const descMap: Record<string, StaticDescriptions | null> = {};
+      
+      ['choral', 'cantopop', 'chorphillia'].forEach(series => {
+        const desc = items.find(item => 
+          item.page?.toLowerCase() === `sheet-music-${series}`.toLowerCase()
+        );
+        descMap[series] = desc || null;
+      });
+      
+      setDescriptions(descMap);
+    } catch (error) {
+      console.error('Error loading descriptions:', error);
+    }
+  };
 
   const series = [
     {
@@ -17,7 +43,8 @@ export default function SheetMusicPage() {
       descriptionEn: 'Classical and contemporary choral works',
       descriptionZh: '古典和當代合唱作品',
       path: '/sheet-music/choral',
-      image: 'https://static.wixstatic.com/media/c418c8_55c5d404387d4ae1a62dd40e9b27db78~mv2.png?originWidth=768&originHeight=960'
+      image: 'https://static.wixstatic.com/media/c418c8_55c5d404387d4ae1a62dd40e9b27db78~mv2.png?originWidth=768&originHeight=960',
+      key: 'choral'
     },
     {
       titleEn: 'CU Chorus Cantopop Series',
@@ -25,7 +52,8 @@ export default function SheetMusicPage() {
       descriptionEn: 'Popular Cantonese songs arranged for choir',
       descriptionZh: '為合唱團編排的流行粵語歌曲',
       path: '/sheet-music/cantopop',
-      image: 'https://static.wixstatic.com/media/c418c8_72a94c0d83964802a8ca24ef13a2f6a5~mv2.png?originWidth=768&originHeight=960'
+      image: 'https://static.wixstatic.com/media/c418c8_72a94c0d83964802a8ca24ef13a2f6a5~mv2.png?originWidth=768&originHeight=960',
+      key: 'cantopop'
     },
     {
       titleEn: 'Chorphillia',
@@ -33,7 +61,8 @@ export default function SheetMusicPage() {
       descriptionEn: 'Specialized choral arrangements',
       descriptionZh: '專業合唱編排',
       path: '/sheet-music/chorphillia',
-      image: 'https://static.wixstatic.com/media/c418c8_8ac11f4196484e559c9fc9cd900ddfa9~mv2.png?originWidth=768&originHeight=960'
+      image: 'https://static.wixstatic.com/media/c418c8_8ac11f4196484e559c9fc9cd900ddfa9~mv2.png?originWidth=768&originHeight=960',
+      key: 'chorphillia'
     }
   ];
 
