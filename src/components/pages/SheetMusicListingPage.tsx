@@ -25,8 +25,10 @@ export default function SheetMusicListingPage() {
   useSEO('sheet-music');
 
   useEffect(() => {
-    loadScores();
-    loadDescription();
+    if (series) {
+      loadScores();
+      loadDescription();
+    }
   }, [series]);
 
   useEffect(() => {
@@ -112,14 +114,14 @@ export default function SheetMusicListingPage() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6 }}
-              className="mb-12"
+              className="mb-12 flex justify-center"
             >
               <Input
                 type="text"
                 placeholder={language === 'en' ? 'Search scores...' : '搜尋樂譜...'}
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="w-full max-w-md mx-auto block bg-secondary text-foreground border-primary placeholder:text-foreground placeholder:opacity-50"
+                className="w-full max-w-md bg-secondary text-foreground border border-primary placeholder:text-foreground placeholder:opacity-50"
               />
             </motion.div>
           )}
