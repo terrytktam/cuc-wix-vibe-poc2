@@ -64,10 +64,11 @@ export default function Header() {
   ];
 
   const handleLanguageToggle = () => {
-    toggleLanguage();
     // Navigate to the same page in the new language
     const newLanguage = language === 'en' ? 'zh' : 'en';
     const newPath = buildLocalizedPath(cleanPath, newLanguage);
+    // Don't call toggleLanguage() here - let the Router's initializeLanguage() handle it
+    // This prevents the store from being overwritten during page reload
     window.location.href = newPath;
   };
 
