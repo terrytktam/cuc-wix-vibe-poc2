@@ -7,6 +7,7 @@ import { BaseCrudService } from '@/integrations';
 import { ExcoStaffs } from '@/entities';
 import { useLanguageStore } from '@/lib/languageStore';
 import { useSEO } from '@/hooks/useSEO';
+import { filterByLatestYear } from '@/lib/yearFilter';
 
 export default function StaffPage() {
   const [staff, setStaff] = useState<ExcoStaffs[]>([]);
@@ -21,7 +22,9 @@ export default function StaffPage() {
   const loadStaff = async () => {
     try {
       const { items } = await BaseCrudService.getAll<ExcoStaffs>('excostaffs');
-      setStaff(items);
+      // Filter staff to only show the latest year
+      const filteredStaff = filterByLatestYear(items, 'year');
+      setStaff(filteredStaff);
     } catch (error) {
       console.error('Error loading staff:', error);
     } finally {

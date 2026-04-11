@@ -7,6 +7,7 @@ import { BaseCrudService } from '@/integrations';
 import { ChorusMembers, VocalTypes } from '@/entities';
 import { useLanguageStore } from '@/lib/languageStore';
 import { useSEO } from '@/hooks/useSEO';
+import { filterByLatestYear } from '@/lib/yearFilter';
 
 export default function MembersPage() {
   const [members, setMembers] = useState<ChorusMembers[]>([]);
@@ -25,7 +26,9 @@ export default function MembersPage() {
         BaseCrudService.getAll<ChorusMembers>('members'),
         BaseCrudService.getAll<VocalTypes>('vocaltypes')
       ]);
-      setMembers(membersResult.items);
+      // Filter members to only show the latest year
+      const filteredMembers = filterByLatestYear(membersResult.items, 'year');
+      setMembers(filteredMembers);
       setVocalTypes(vocalTypesResult.items);
     } catch (error) {
       console.error('Error loading members:', error);
