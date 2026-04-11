@@ -22,12 +22,22 @@ export default function MembersPage() {
 
   const loadData = async () => {
     try {
-      const [membersResult, vocalTypesResult] = await Promise.all([
-        BaseCrudService.getAll<ChorusMembers>('members'),
-        BaseCrudService.getAll<VocalTypes>('vocaltypes')
-      ]);
+      // Fetch all members with pagination
+      let allMembers: ChorusMembers[] = [];
+      let skip = 0;
+      let hasMore = true;
+
+      while (hasMore) {
+        const membersResult = await BaseCrudService.getAll<ChorusMembers>('members', [], { skip, limit: 100 });
+        allMembers = [...allMembers, ...membersResult.items];
+        hasMore = membersResult.hasNext ?? false;
+        skip = membersResult.nextSkip ?? skip + 100;
+      }
+
+      const vocalTypesResult = await BaseCrudService.getAll<VocalTypes>('vocaltypes');
+      
       // Filter members to only show the latest year
-      const filteredMembers = filterByLatestYear(membersResult.items, 'year');
+      const filteredMembers = filterByLatestYear(allMembers, 'year');
       setMembers(filteredMembers);
       setVocalTypes(vocalTypesResult.items);
     } catch (error) {
