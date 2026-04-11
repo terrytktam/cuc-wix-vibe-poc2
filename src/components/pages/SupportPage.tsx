@@ -126,8 +126,7 @@ export default function SupportPage() {
                           className="text-base md:text-lg leading-relaxed text-secondary-foreground flex-grow"
                           dangerouslySetInnerHTML={{ 
                             __html: language === 'en' 
-                              ? (program.description_en || program.descriptionEn || '') 
-                              : (program.description_zh || program.descriptionZh || program.description_en || program.descriptionEn || '')
+                              ? (program.description_en || '') : (program.description_zh || program.description_en || '')
                           }}
                         />
                       </div>
