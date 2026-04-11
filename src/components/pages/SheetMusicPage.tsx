@@ -47,22 +47,22 @@ export default function SheetMusicPage() {
       key: 'choral'
     },
     {
-      titleEn: 'CU Chorus Cantopop Series',
+      titleEn: 'CU Chorus Cantonese Series',
       titleZh: '中大粵語流行曲系列',
       descriptionEn: 'Popular Cantonese songs arranged for choir',
       descriptionZh: '為合唱團編排的流行粵語歌曲',
-      path: '/sheet-music/cantopop',
+      path: '/sheet-music/cantonese',
       image: 'https://static.wixstatic.com/media/c418c8_72a94c0d83964802a8ca24ef13a2f6a5~mv2.png?originWidth=768&originHeight=960',
-      key: 'cantopop'
+      key: 'cantonese'
     },
     {
-      titleEn: 'Chorphillia',
-      titleZh: 'Chorphillia',
+      titleEn: 'Chorphilia',
+      titleZh: 'Chorphilia',
       descriptionEn: 'Specialized choral arrangements',
       descriptionZh: '專業合唱編排',
       path: '/sheet-music/chorphillia',
       image: 'https://static.wixstatic.com/media/c418c8_8ac11f4196484e559c9fc9cd900ddfa9~mv2.png?originWidth=768&originHeight=960',
-      key: 'chorphillia'
+      key: 'chorphilia'
     }
   ];
 
