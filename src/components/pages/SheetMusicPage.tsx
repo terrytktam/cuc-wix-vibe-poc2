@@ -23,7 +23,7 @@ export default function SheetMusicPage() {
       const { items } = await BaseCrudService.getAll<StaticDescriptions>('staticdescriptions');
       const descMap: Record<string, StaticDescriptions | null> = {};
       
-      ['choral', 'cantopop', 'chorphillia'].forEach(series => {
+      ['choral', 'cantonese', 'chorphilia'].forEach(series => {
         const desc = items.find(item => 
           item.page?.toLowerCase() === `sheet-music-${series}`.toLowerCase()
         );
@@ -60,7 +60,7 @@ export default function SheetMusicPage() {
       titleZh: 'Chorphilia',
       descriptionEn: 'Specialized choral arrangements',
       descriptionZh: '專業合唱編排',
-      path: '/sheet-music/chorphillia',
+      path: '/sheet-music/chorphilia',
       image: 'https://static.wixstatic.com/media/c418c8_8ac11f4196484e559c9fc9cd900ddfa9~mv2.png?originWidth=768&originHeight=960',
       key: 'chorphilia'
     }

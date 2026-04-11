@@ -46,8 +46,8 @@ export default function Header() {
       path: '/sheet-music',
       children: [
         { label: language === 'en' ? 'CU Chorus Choral Series' : '中大合唱系列', path: '/sheet-music/choral' },
-        { label: language === 'en' ? 'CU Chorus Cantopop Series' : '中大粵語流行曲系列', path: '/sheet-music/cantopop' },
-        { label: language === 'en' ? 'Chorphillia' : 'Chorphillia', path: '/sheet-music/chorphillia' }
+        { label: language === 'en' ? 'CU Chorus Cantonese Series' : '中大粵語流行曲系列', path: '/sheet-music/cantonese' },
+        { label: language === 'en' ? 'Chorphilia' : 'Chorphilia', path: '/sheet-music/chorphilia' }
       ]
     },
     {
