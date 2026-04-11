@@ -82,10 +82,10 @@ export default function SheetMusicListingPage() {
     switch (series) {
       case 'choral':
         return language === 'en' ? 'CU Chorus Choral Series' : '中大合唱系列';
-      case 'cantopop':
-        return language === 'en' ? 'CU Chorus Cantopop Series' : '中大粵語流行曲系列';
-      case 'chorphillia':
-        return 'Chorphillia';
+      case 'cantonese':
+        return language === 'en' ? 'CU Chorus Cantonese Series' : '中大粵語流行曲系列';
+      case 'chorphilia':
+        return 'Chorphilia';
       default:
         return language === 'en' ? 'Sheet Music' : '樂譜';
     }
