@@ -54,10 +54,21 @@ export default function SheetMusicListingPage() {
   const loadScores = async () => {
     try {
       const { items } = await BaseCrudService.getAll<SheetMusicCatalog>('scores');
-      const filteredScores = items.filter(score => 
-        !score.isHidden && 
-        score.series?.toLowerCase() === series?.toLowerCase()
-      );
+      const filteredScores = items.filter(score => {
+        if (score.isHidden) return false;
+        
+        // Handle series as tags - check if series contains the target series
+        // Works with both comma-separated strings and array formats
+        if (!score.series) return false;
+        
+        const seriesTags = Array.isArray(score.series) 
+          ? score.series 
+          : score.series.split(',').map(s => s.trim());
+        
+        return seriesTags.some(tag => 
+          tag.toLowerCase() === series?.toLowerCase()
+        );
+      });
       setScores(filteredScores);
       setFilteredScores(filteredScores);
     } catch (error) {
