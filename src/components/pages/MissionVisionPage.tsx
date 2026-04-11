@@ -58,7 +58,7 @@ export default function MissionVisionPage() {
                   </h1>
                   <div 
                     className="text-lg leading-relaxed space-y-6"
-                    dangerouslySetInnerHTML={{ __html: language === 'en' ? (content.descriptionEn || '') : (content.descriptionZh || content.descriptionEn || '') }}
+                    dangerouslySetInnerHTML={{ __html: language === 'en' ? (content.description_en || '') : (content.description_zh || content.description_en || '') }}
                   />
                 </motion.div>
 

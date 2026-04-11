@@ -21,7 +21,6 @@ interface DonationProgram {
 export default function SupportPage() {
   const { language } = useLanguageStore();
   const [content, setContent] = useState<StaticDescriptions | null>(null);
-  const [programs, setPrograms] = useState<DonationProgram[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   useSEO('support');
 
@@ -31,14 +30,12 @@ export default function SupportPage() {
 
   const loadContent = async () => {
     try {
-      const [staticContent, donationPrograms] = await Promise.all([
+      const [staticContent] = await Promise.all([
         BaseCrudService.getAll<StaticDescriptions>('staticdescriptions'),
-        BaseCrudService.getAll<DonationProgram>('donationprograms')
       ]);
       
       const supportContent = staticContent.items.find(item => item.page === 'support');
       setContent(supportContent || null);
-      setPrograms(donationPrograms.items || []);
     } catch (error) {
       console.error('Error loading support content:', error);
     } finally {
@@ -71,44 +68,10 @@ export default function SupportPage() {
                 {content && (
                   <div 
                     className="text-xl md:text-2xl max-w-4xl mx-auto leading-relaxed"
-                    dangerouslySetInnerHTML={{ __html: language === 'en' ? (content.descriptionEn || '') : (content.descriptionZh || content.descriptionEn || '') }}
+                    dangerouslySetInnerHTML={{ __html: language === 'en' ? (content.description_en || '') : (content.description_zh || content.description_en || '') }}
                   />
                 )}
               </motion.div>
-
-              {/* Donation Programs Grid */}
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-12 lg:gap-16">
-                {programs.length > 0 ? (
-                  programs.map((program, index) => (
-                    <motion.div
-                      key={program._id}
-                      initial={{ opacity: 0, y: 30 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      transition={{ duration: 0.6, delay: index * 0.1 }}
-                    >
-                      <div className="group block">
-                        <div className="relative aspect-[4/5] mb-6 overflow-hidden">
-                          <Image
-                            src={program.programImage || 'https://static.wixstatic.com/media/c418c8_0ad917176870435b9a5ccb5386ba55ec~mv2.png?originWidth=960&originHeight=1216'}
-                            alt={language === 'en' ? (program.programNameEn || '') : (program.programNameZh || program.programNameEn || '')}
-                            className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
-                          />
-                        </div>
-                        <h2 className="font-heading text-4xl mb-4 text-foreground group-hover:text-primary transition-colors duration-300">
-                          {language === 'en' ? program.programNameEn : program.programNameZh || program.programNameEn}
-                        </h2>
-                        <p className="text-lg leading-relaxed text-foreground opacity-80">
-                          {language === 'en' ? program.descriptionEn : program.descriptionZh || program.descriptionEn}
-                        </p>
-                      </div>
-                    </motion.div>
-                  ))
-                ) : (
-                  <div className="col-span-full text-center py-16">
-                    <p className="text-xl">{language === 'en' ? 'No programs available' : '沒有可用的計劃'}</p>
-                  </div>
-                )}
-              </div>
             </>
           )}
         </div>

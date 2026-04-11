@@ -137,11 +137,6 @@ export default function RecordingDetailPage() {
                         <p className="text-base font-medium mb-1">
                           {language === 'en' ? recordType.typeEn : recordType.typeZh || recordType.typeEn}
                         </p>
-                        {(language === 'en' ? recordType.descriptionEn : recordType.descriptionZh || recordType.descriptionEn) && (
-                          <p className="text-sm text-foreground opacity-75">
-                            {language === 'en' ? recordType.descriptionEn : recordType.descriptionZh || recordType.descriptionEn}
-                          </p>
-                        )}
                       </motion.div>
                     )}
                     

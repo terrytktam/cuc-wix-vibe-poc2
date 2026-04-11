@@ -218,16 +218,16 @@ export default function EventDetailPage() {
                                 <div className="mb-4 aspect-square max-w-xs overflow-hidden">
                                   <Image
                                     src={bio.portraitImage}
-                                    alt={language === 'en' ? (bio.nameEn || 'Biography') : (bio.nameZh || bio.nameEn || '傳記')}
+                                    alt={language === 'en' ? (bio.name_en || 'Biography') : (bio.name_zh || bio.name_en || '傳記')}
                                     className="w-full h-full object-cover"
                                   />
                                 </div>
                               )}
                               <h3 className="text-xl font-medium mb-2">
-                                {language === 'en' ? bio.nameEn : bio.nameZh || bio.nameEn}
+                                {language === 'en' ? bio.name_en : bio.name_zh || bio.name_en}
                               </h3>
                               <p className="text-base leading-relaxed">
-                                {language === 'en' ? bio.descriptionEn : bio.descriptionZh || bio.descriptionEn}
+                                {language === 'en' ? bio.description_en : bio.description_zh || bio.description_en}
                               </p>
                             </div>
                           ))}

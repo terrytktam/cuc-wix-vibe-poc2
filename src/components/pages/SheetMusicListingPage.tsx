@@ -98,7 +98,7 @@ export default function SheetMusicListingPage() {
             {description && (
               <div className="mb-8">
                 <p className="text-xl md:text-2xl max-w-4xl mx-auto leading-relaxed">
-                  {language === 'en' ? description.descriptionEn : description.descriptionZh}
+                  {language === 'en' ? description.description_en : description.description_zh}
                 </p>
               </div>
             )}

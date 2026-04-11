@@ -106,7 +106,7 @@ export default function SheetMusicPage() {
                     {language === 'en' ? item.titleEn : item.titleZh}
                   </h2>
                   <p className="text-lg leading-relaxed text-foreground opacity-80">
-                    {language === 'en' ? item.descriptionEn : item.descriptionZh}
+                    {language === 'en' ? item.description_en : item.description_zh}
                   </p>
                 </Link>
               </motion.div>
