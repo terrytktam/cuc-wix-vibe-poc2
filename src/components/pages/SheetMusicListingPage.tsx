@@ -7,15 +7,19 @@ import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import Cart from '@/components/Cart';
 import { BaseCrudService } from '@/integrations';
-import { SheetMusicCatalog, StaticDescriptions } from '@/entities';
+import { SheetMusicCatalog, StaticDescriptions, Songs } from '@/entities';
 import { useLanguageStore, buildLocalizedPath } from '@/lib/languageStore';
 import { useSEO } from '@/hooks/useSEO';
 import { Input } from '@/components/ui/input';
 
+interface ScoreWithSongDetails extends SheetMusicCatalog {
+  songDetails?: Songs;
+}
+
 export default function SheetMusicListingPage() {
   const { series } = useParams<{ series: string }>();
-  const [scores, setScores] = useState<SheetMusicCatalog[]>([]);
-  const [filteredScores, setFilteredScores] = useState<SheetMusicCatalog[]>([]);
+  const [scores, setScores] = useState<ScoreWithSongDetails[]>([]);
+  const [filteredScores, setFilteredScores] = useState<ScoreWithSongDetails[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [searchQuery, setSearchQuery] = useState('');
   const [description, setDescription] = useState<StaticDescriptions | null>(null);
@@ -32,10 +36,24 @@ export default function SheetMusicListingPage() {
   }, [series]);
 
   useEffect(() => {
-    const filtered = scores.filter(score => 
-      score.itemName?.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      score.voicing?.toLowerCase().includes(searchQuery.toLowerCase())
-    );
+    const filtered = scores.filter(score => {
+      const query = searchQuery.toLowerCase();
+      const matchesItemName = score.itemName?.toLowerCase().includes(query);
+      const matchesVoicing = score.voicing?.toLowerCase().includes(query);
+      const matchesComposer = score.songDetails?.composerEn?.toLowerCase().includes(query) ||
+                              score.songDetails?.composerZh?.toLowerCase().includes(query);
+      const matchesLyricist = score.songDetails?.lyricistEn?.toLowerCase().includes(query) ||
+                              score.songDetails?.lyricistZh?.toLowerCase().includes(query);
+      const matchesArranger = score.songDetails?.arrangerEn?.toLowerCase().includes(query) ||
+                              score.songDetails?.arrangerZh?.toLowerCase().includes(query);
+      const matchesSinger = score.songDetails?.singerEn?.toLowerCase().includes(query) ||
+                            score.songDetails?.singerZh?.toLowerCase().includes(query);
+      const matchesSongName = score.songDetails?.nameEn?.toLowerCase().includes(query) ||
+                              score.songDetails?.nameZh?.toLowerCase().includes(query);
+      
+      return matchesItemName || matchesVoicing || matchesComposer || matchesLyricist || 
+             matchesArranger || matchesSinger || matchesSongName;
+    });
     setFilteredScores(filtered);
   }, [searchQuery, scores]);
 
@@ -53,7 +71,9 @@ export default function SheetMusicListingPage() {
 
   const loadScores = async () => {
     try {
-      const { items } = await BaseCrudService.getAll<SheetMusicCatalog>('scores');
+      const { items } = await BaseCrudService.getAll<SheetMusicCatalog>('scores', {
+        singleRef: ['songReference']
+      });
       const filteredScores = items.filter(score => {
         if (score.isHidden) return false;
         
@@ -69,8 +89,15 @@ export default function SheetMusicListingPage() {
           tag.toLowerCase() === series?.toLowerCase()
         );
       });
-      setScores(filteredScores);
-      setFilteredScores(filteredScores);
+      
+      // Attach song details to each score
+      const scoresWithDetails: ScoreWithSongDetails[] = filteredScores.map(score => ({
+        ...score,
+        songDetails: (score as any).songReference as Songs
+      }));
+      
+      setScores(scoresWithDetails);
+      setFilteredScores(scoresWithDetails);
     } catch (error) {
       console.error('Error loading scores:', error);
     } finally {
@@ -174,6 +201,19 @@ export default function SheetMusicListingPage() {
                         </h2>
                         {score.voicing && (
                           <p className="text-sm text-foreground opacity-70 mb-2">{score.voicing}</p>
+                        )}
+                        {score.songDetails && (
+                          <div className="text-xs text-foreground opacity-60 space-y-1 mb-3">
+                            {score.songDetails.composerEn && (
+                              <p>{language === 'en' ? 'Composer: ' : '作曲家: '}{language === 'en' ? score.songDetails.composerEn : score.songDetails.composerZh}</p>
+                            )}
+                            {score.songDetails.lyricistEn && (
+                              <p>{language === 'en' ? 'Lyricist: ' : '作詞家: '}{language === 'en' ? score.songDetails.lyricistEn : score.songDetails.lyricistZh}</p>
+                            )}
+                            {score.songDetails.arrangerEn && (
+                              <p>{language === 'en' ? 'Arranger: ' : '編曲家: '}{language === 'en' ? score.songDetails.arrangerEn : score.songDetails.arrangerZh}</p>
+                            )}
+                          </div>
                         )}
                       </Link>
                       
