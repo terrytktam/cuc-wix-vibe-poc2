@@ -38,7 +38,6 @@ export default function SheetMusicListingPage() {
   useEffect(() => {
     const filtered = scores.filter(score => {
       const query = searchQuery.toLowerCase();
-      const matchesItemName = score.itemName?.toLowerCase().includes(query);
       const matchesVoicing = score.voicing?.toLowerCase().includes(query);
       const matchesComposer = score.songDetails?.composerEn?.toLowerCase().includes(query) ||
                               score.songDetails?.composerZh?.toLowerCase().includes(query);
@@ -51,7 +50,7 @@ export default function SheetMusicListingPage() {
       const matchesSongName = score.songDetails?.nameEn?.toLowerCase().includes(query) ||
                               score.songDetails?.nameZh?.toLowerCase().includes(query);
       
-      return matchesItemName || matchesVoicing || matchesComposer || matchesLyricist || 
+      return matchesVoicing || matchesComposer || matchesLyricist || 
              matchesArranger || matchesSinger || matchesSongName;
     });
     setFilteredScores(filtered);
@@ -192,12 +191,12 @@ export default function SheetMusicListingPage() {
                         <div className="relative aspect-[3/4] mb-4 overflow-hidden">
                           <Image
                             src={score.itemImage || 'https://static.wixstatic.com/media/c418c8_ccc8f6635f95461eb322a9b5ed034fba~mv2.png?originWidth=384&originHeight=512'}
-                            alt={score.itemName || 'Sheet Music'}
+                            alt={score.songDetails?.nameEn || 'Sheet Music'}
                             className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
                           />
                         </div>
                         <h2 className="font-heading text-2xl mb-2 text-foreground group-hover:text-primary transition-colors duration-300">
-                          {score.itemName}
+                          {language === 'en' ? score.songDetails?.nameEn : score.songDetails?.nameZh}
                         </h2>
                         {score.voicing && (
                           <p className="text-sm text-foreground opacity-70 mb-2">{score.voicing}</p>
