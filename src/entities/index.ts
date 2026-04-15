@@ -545,6 +545,14 @@ export interface SheetMusicCatalog {
   previewUrl?: string;
   /** @wixFieldType text */
   scoreId?: string;
+  /** @wixFieldType reference */
+  songId?: Songs;
+  /** @wixFieldType text */
+  price_zh?: string;
+  /** @wixFieldType text */
+  price_en?: string;
+  /** @wixFieldType array_string */
+  series1?: any;
 }
 
 
