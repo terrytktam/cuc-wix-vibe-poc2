@@ -14,20 +14,30 @@ interface ScoreWithSongDetails extends SheetMusicCatalog {
   songDetails?: Songs;
 }
 
+interface SeriesStaticContent {
+  introduction: StaticDescriptions | null;
+  ordering: StaticDescriptions | null;
+  payment: StaticDescriptions | null;
+}
+
 export default function SheetMusicListingPage() {
   const { series } = useParams<{ series: string }>();
   const [scores, setScores] = useState<ScoreWithSongDetails[]>([]);
   const [filteredScores, setFilteredScores] = useState<ScoreWithSongDetails[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [searchQuery, setSearchQuery] = useState('');
-  const [description, setDescription] = useState<StaticDescriptions | null>(null);
+  const [staticContent, setStaticContent] = useState<SeriesStaticContent>({
+    introduction: null,
+    ordering: null,
+    payment: null
+  });
   const { language } = useLanguageStore();
   useSEO('sheet-music');
 
   useEffect(() => {
     if (series) {
       loadScores();
-      loadDescription();
+      loadStaticContent();
     }
   }, [series]);
 
@@ -52,15 +62,40 @@ export default function SheetMusicListingPage() {
     setFilteredScores(filtered);
   }, [searchQuery, scores]);
 
-  const loadDescription = async () => {
+  const loadStaticContent = async () => {
     try {
       const { items } = await BaseCrudService.getAll<StaticDescriptions>('staticdescriptions');
-      const pageDescription = items.find(item => 
-        item.page?.toLowerCase() === `sheet-music-${series}`.toLowerCase()
-      );
-      setDescription(pageDescription || null);
+      
+      // Map series to their static description page names
+      const seriesPageMap: Record<string, { intro: string; ordering: string; payment: string }> = {
+        'choral': {
+          intro: 'ScoresChoralSeriesIntroduction',
+          ordering: 'ScoresChoralSeriesOrdering',
+          payment: 'ScoresChoralSeriesPayment'
+        },
+        'cantonese': {
+          intro: 'ScoresCantoneseSeriesIntroduction',
+          ordering: 'ScoresCantoneseSeriesOrdering',
+          payment: 'ScoresCantoneseSeriesPayment'
+        },
+        'chorphilia': {
+          intro: 'ScoresChorphillaIntroduction',
+          ordering: 'ScoresChorphillaOrdering',
+          payment: 'ScoresChorphillaPayment'
+        }
+      };
+
+      const pageNames = seriesPageMap[series?.toLowerCase() || ''];
+      
+      if (pageNames) {
+        const introduction = items.find(item => item.page === pageNames.intro) || null;
+        const ordering = items.find(item => item.page === pageNames.ordering) || null;
+        const payment = items.find(item => item.page === pageNames.payment) || null;
+        
+        setStaticContent({ introduction, ordering, payment });
+      }
     } catch (error) {
-      console.error('Error loading description:', error);
+      console.error('Error loading static content:', error);
     }
   };
 
@@ -113,6 +148,36 @@ export default function SheetMusicListingPage() {
     }
   };
 
+  const renderStaticSection = (content: StaticDescriptions | null, sectionTitle: string) => {
+    if (!content) return null;
+    
+    const richText = language === 'en' ? content.description_en : content.description_zh;
+    const plainText = language === 'en' ? content.descriptionEn : content.descriptionZh;
+    const displayContent = richText || plainText;
+    
+    if (!displayContent) return null;
+
+    return (
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.6 }}
+        className="mb-16 pb-12 border-b border-primary border-opacity-30"
+      >
+        <h2 className="font-heading text-4xl md:text-5xl mb-8 text-foreground">
+          {sectionTitle}
+        </h2>
+        <div className="max-w-4xl text-lg leading-relaxed text-foreground opacity-90">
+          {typeof displayContent === 'string' ? (
+            <p>{displayContent}</p>
+          ) : (
+            <div dangerouslySetInnerHTML={{ __html: displayContent }} />
+          )}
+        </div>
+      </motion.div>
+    );
+  };
+
   return (
     <div className="min-h-screen bg-background text-foreground font-paragraph">
       <Header />
@@ -128,19 +193,23 @@ export default function SheetMusicListingPage() {
             <h1 className="font-heading text-6xl md:text-7xl lg:text-8xl mb-8 text-foreground">
               {getSeriesTitle()}
             </h1>
-            {description && (
-              <div className="mb-8">
-                <p className="text-xl md:text-2xl max-w-4xl mx-auto leading-relaxed">
-                  {language === 'en' ? description.description_en : description.description_zh}
-                </p>
-              </div>
-            )}
-            {!description && (
-              <p className="text-xl md:text-2xl max-w-4xl mx-auto leading-relaxed">
-                {language === 'en' ? 'Browse our collection of choral scores' : '瀏覽我們的合唱樂譜集合'}
-              </p>
-            )}
           </motion.div>
+
+          {/* Static Content Sections */}
+          <div className="mb-20 max-w-4xl mx-auto">
+            {renderStaticSection(
+              staticContent.introduction,
+              language === 'en' ? 'Introduction' : '介紹'
+            )}
+            {renderStaticSection(
+              staticContent.ordering,
+              language === 'en' ? 'Ordering' : '訂購'
+            )}
+            {renderStaticSection(
+              staticContent.payment,
+              language === 'en' ? 'Payment' : '付款'
+            )}
+          </div>
 
           {!isLoading && scores.length > 0 && (
             <motion.div

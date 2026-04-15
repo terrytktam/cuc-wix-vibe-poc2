@@ -388,7 +388,6 @@ export interface Mentions {
 
 /**
  * Collection ID: recordings
- * @catalog This collection is an eCommerce catalog
  * Interface for Recordings
  */
 export interface Recordings {
@@ -506,7 +505,6 @@ export interface Relationships {
 
 /**
  * Collection ID: scores
- * @catalog This collection is an eCommerce catalog
  * Interface for SheetMusicCatalog
  */
 export interface SheetMusicCatalog {
