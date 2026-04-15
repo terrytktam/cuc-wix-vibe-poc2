@@ -89,7 +89,7 @@ export default function ScoreDetailPage() {
                   transition={{ duration: 0.8, delay: 0.2 }}
                 >
                   <h1 className="font-heading text-5xl md:text-6xl mb-6 text-foreground">
-                    {score.itemName}
+                    {song ? (language === 'en' ? song.nameEn : song.nameZh || song.nameEn) : score.itemName}
                   </h1>
 
                   <div className="space-y-4 mb-8">
