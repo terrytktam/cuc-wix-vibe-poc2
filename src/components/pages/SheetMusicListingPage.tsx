@@ -152,8 +152,7 @@ export default function SheetMusicListingPage() {
     if (!content) return null;
     
     const richText = language === 'en' ? content.description_en : content.description_zh;
-    const plainText = language === 'en' ? content.descriptionEn : content.descriptionZh;
-    const displayContent = richText || plainText;
+    const displayContent = richText;
     
     if (!displayContent) return null;
 
@@ -167,13 +166,10 @@ export default function SheetMusicListingPage() {
         <h2 className="font-heading text-4xl md:text-5xl mb-8 text-foreground">
           {sectionTitle}
         </h2>
-        <div className="max-w-4xl text-lg leading-relaxed text-foreground opacity-90">
-          {typeof displayContent === 'string' ? (
-            <p>{displayContent}</p>
-          ) : (
-            <div dangerouslySetInnerHTML={{ __html: displayContent }} />
-          )}
-        </div>
+        <div
+          className="max-w-4xl text-lg leading-relaxed text-foreground opacity-90"
+          dangerouslySetInnerHTML={{ __html: displayContent }}
+        />
       </motion.div>
     );
   };

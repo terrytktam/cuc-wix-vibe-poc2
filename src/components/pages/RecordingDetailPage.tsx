@@ -10,7 +10,6 @@ import { BaseCrudService } from '@/integrations';
 import { Recordings, Contributors, Mentions, RecordTypes, RecordingMediums } from '@/entities';
 import { useLanguageStore } from '@/lib/languageStore';
 import { useSEO } from '@/hooks/useSEO';
-import { parseRichText } from '@/lib/richTextParser';
 
 export default function RecordingDetailPage() {
   const { id } = useParams<{ id: string }>();

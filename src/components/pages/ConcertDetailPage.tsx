@@ -10,7 +10,6 @@ import { BaseCrudService } from '@/integrations';
 import { Concerts, Contributors, Mentions, Biographies, Relationships } from '@/entities';
 import { useLanguageStore } from '@/lib/languageStore';
 import { useSEO } from '@/hooks/useSEO';
-import { parseRichText } from '@/lib/richTextParser';
 
 export default function ConcertDetailPage() {
   const { id } = useParams<{ id: string }>();
