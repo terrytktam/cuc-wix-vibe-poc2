@@ -172,7 +172,7 @@ export default function RecordingDetailPage() {
                       </h2>
                       <div 
                         className="text-lg leading-relaxed space-y-4"
-                        dangerouslySetInnerHTML={{ __html: parseRichText(language === 'en' ? (recording.introduction_en || '') : (recording.introduction_zh || recording.introduction_en || '')) }}
+                        dangerouslySetInnerHTML={{ __html: language === 'en' ? (recording.introduction_en || '') : (recording.introduction_zh || recording.introduction_en || '') }}
                       />
                     </div>
                   ) : null}
@@ -184,7 +184,7 @@ export default function RecordingDetailPage() {
                       </h2>
                       <div 
                         className="text-base leading-relaxed space-y-2"
-                        dangerouslySetInnerHTML={{ __html: parseRichText(language === 'en' ? (recording.songlist_en || '') : (recording.songlist_zh || recording.songlist_en || '')) }}
+                        dangerouslySetInnerHTML={{ __html: language === 'en' ? (recording.songlist_en || '') : (recording.songlist_zh || recording.songlist_en || '') }}
                       />
                     </div>
                   ) : null}
@@ -196,7 +196,7 @@ export default function RecordingDetailPage() {
                       </h2>
                       <div 
                         className="text-base leading-relaxed space-y-2"
-                        dangerouslySetInnerHTML={{ __html: parseRichText(language === 'en' ? (recording.recording_en || '') : (recording.recording_zh || recording.recording_en || '')) }}
+                        dangerouslySetInnerHTML={{ __html: language === 'en' ? (recording.recording_en || '') : (recording.recording_zh || recording.recording_en || '') }}
                       />
                     </div>
                   ) : null}
