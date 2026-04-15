@@ -72,18 +72,18 @@ export default function SheetMusicListingPage() {
   const loadScores = async () => {
     try {
       const { items } = await BaseCrudService.getAll<SheetMusicCatalog>('scores', {
-        singleRef: ['songReference']
+        singleRef: ['songId']
       });
       const filteredScores = items.filter(score => {
         if (score.isHidden) return false;
         
-        // Handle series as tags - check if series contains the target series
+        // Handle series1 as tags - check if series1 contains the target series1
         // Works with both comma-separated strings and array formats
-        if (!score.series) return false;
+        if (!score.series1) return false;
         
-        const seriesTags = Array.isArray(score.series) 
-          ? score.series 
-          : score.series.split(',').map(s => s.trim());
+        const seriesTags = Array.isArray(score.series1) 
+          ? score.series1 
+          : score.series1.split(',').map(s => s.trim());
         
         return seriesTags.some(tag => 
           tag.toLowerCase() === series?.toLowerCase()
@@ -93,7 +93,7 @@ export default function SheetMusicListingPage() {
       // Attach song details to each score
       const scoresWithDetails: ScoreWithSongDetails[] = filteredScores.map(score => ({
         ...score,
-        songDetails: (score as any).songReference as Songs
+        songDetails: (score as any).songId as Songs
       }));
       
       setScores(scoresWithDetails);

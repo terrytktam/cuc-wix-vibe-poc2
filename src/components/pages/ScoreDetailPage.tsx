@@ -34,9 +34,9 @@ export default function ScoreDetailPage() {
       const data = await BaseCrudService.getById<SheetMusicCatalog>('scores', id!);
       setScore(data);
       
-      // Load song if songReference exists
-      if (data?.songReference) {
-        const songData = await BaseCrudService.getById<Songs>('songs', data.songReference);
+      // Load song if songId exists
+      if (data?.songId) {
+        const songData = await BaseCrudService.getById<Songs>('songs', data.songId);
         setSong(songData);
       }
     } catch (error) {
@@ -98,7 +98,7 @@ export default function ScoreDetailPage() {
                         <span className="text-primary">{language === 'en' ? 'Voicing' : '聲部'}:</span> {score.voicing}
                       </p>
                     )}
-                    {score.series && (
+                    {score.series1 && (
                       <p className="text-lg">
                         <span className="text-primary">{language === 'en' ? 'Series' : '系列'}:</span> {score.series}
                       </p>
