@@ -4,7 +4,6 @@ import { motion } from 'framer-motion';
 import { Image } from '@/components/ui/image';
 import { LoadingSpinner } from '@/components/ui/loading-spinner';
 import { ExternalLink, Users, MessageSquare, Disc3, Package } from 'lucide-react';
-import { useCart, useCurrency, formatPrice, DEFAULT_CURRENCY } from '@/integrations';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import { BaseCrudService } from '@/integrations';
@@ -19,8 +18,6 @@ export default function RecordingDetailPage() {
   const [recordType, setRecordType] = useState<RecordTypes | null>(null);
   const [medium, setMedium] = useState<RecordingMediums | null>(null);
   const [isLoading, setIsLoading] = useState(true);
-  const { addingItemId, actions } = useCart();
-  const { currency } = useCurrency();
   const { language } = useLanguageStore();
   useSEO('recordings');
 
@@ -54,8 +51,6 @@ export default function RecordingDetailPage() {
       setIsLoading(false);
     }
   };
-
-  const isAdding = addingItemId === recording?._id;
 
   return (
     <div className="min-h-screen bg-background text-foreground font-paragraph">
@@ -206,29 +201,13 @@ export default function RecordingDetailPage() {
                     </div>
                   ) : null}
 
-                  <div className="border-t border-b border-muted-grey py-8 mb-8">
-                    <p className="text-4xl font-heading text-primary mb-6">
-                      {formatPrice(recording.itemPrice || 0, currency ?? DEFAULT_CURRENCY)}
-                    </p>
-                    <button
-                      onClick={() => actions.addToCart({ 
-                        collectionId: 'recordings', 
-                        itemId: recording._id 
-                      })}
-                      disabled={isAdding}
-                      className="w-full bg-primary text-primary-foreground px-8 py-4 text-lg font-medium transition-all duration-300 hover:bg-opacity-90 disabled:opacity-50"
-                    >
-                      {isAdding ? (language === 'en' ? 'Adding to Cart...' : '添加到購物車中...') : (language === 'en' ? 'Add to Cart' : '加入購物車')}
-                    </button>
-                  </div>
-
-                  <div className="space-y-4">
+                  <div className="space-y-4 mt-8">
                     {recording.previewUrl && (
                       <a
                         href={recording.previewUrl}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="flex items-center justify-center gap-2 bg-transparent text-foreground border border-foreground px-6 py-3 text-lg transition-all duration-300 hover:bg-foreground hover:text-background w-full"
+                        className="flex items-center justify-center gap-2 bg-primary text-primary-foreground px-6 py-3 text-lg font-medium transition-all duration-300 hover:bg-opacity-90 w-full"
                       >
                         {language === 'en' ? 'Preview' : '預覽'}
                         <ExternalLink size={18} />

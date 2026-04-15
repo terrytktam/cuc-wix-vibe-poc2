@@ -2,7 +2,6 @@ import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { Image } from '@/components/ui/image';
-import { useCart, useCurrency, formatPrice, DEFAULT_CURRENCY } from '@/integrations';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import { BaseCrudService } from '@/integrations';
@@ -13,8 +12,6 @@ import { useSEO } from '@/hooks/useSEO';
 export default function RecordingsPage() {
   const [recordings, setRecordings] = useState<Recordings[]>([]);
   const [isLoading, setIsLoading] = useState(true);
-  const { addingItemId, actions } = useCart();
-  const { currency } = useCurrency();
   const { language } = useLanguageStore();
   useSEO('recordings');
 
@@ -64,50 +61,33 @@ export default function RecordingsPage() {
               </div>
             ) : (
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-12">
-                {recordings.map((recording, index) => {
-                  const isAdding = addingItemId === recording._id;
-                  
-                  return (
-                    <motion.div
-                      key={recording._id}
-                      initial={{ opacity: 0, y: 30 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      transition={{ duration: 0.6, delay: index * 0.05 }}
-                    >
-                      <Link to={`/${language}/recording/${recording._id}`} className="group block">
-                        <div className="relative aspect-square mb-4 overflow-hidden">
-                          <Image
-                            src={recording.itemImage || 'https://static.wixstatic.com/media/c418c8_06f60772399a489193a730c7da4dd1c0~mv2.png?originWidth=384&originHeight=384'}
-                            alt={recording.itemName || 'Recording'}
-                            className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
-                          />
-                        </div>
-                        <h2 className="font-heading text-2xl mb-2 text-foreground group-hover:text-primary transition-colors duration-300">
-                          {recording.itemName}
-                        </h2>
-                        {recording.releaseYear && (
-                          <p className="text-sm text-foreground opacity-70 mb-2">{recording.releaseYear}</p>
-                        )}
-                      </Link>
-                      
-                      <div className="flex items-center justify-between mt-4">
-                        <span className="text-xl font-heading text-primary">
-                          {formatPrice(recording.itemPrice || 0, currency ?? DEFAULT_CURRENCY)}
-                        </span>
-                        <button
-                          onClick={() => actions.addToCart({ 
-                            collectionId: 'recordings', 
-                            itemId: recording._id 
-                          })}
-                          disabled={isAdding}
-                          className="bg-primary text-primary-foreground px-4 py-2 text-sm font-medium transition-all duration-300 hover:bg-opacity-90 disabled:opacity-50"
-                        >
-                          {isAdding ? (language === 'en' ? 'Adding...' : '添加中...') : (language === 'en' ? 'Add to Cart' : '加入購物車')}
-                        </button>
+                {recordings.map((recording, index) => (
+                  <motion.div
+                    key={recording._id}
+                    initial={{ opacity: 0, y: 30 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.6, delay: index * 0.05 }}
+                  >
+                    <Link to={`/${language}/recording/${recording._id}`} className="group block h-full">
+                      <div className="relative aspect-square mb-4 overflow-hidden">
+                        <Image
+                          src={recording.itemImage || 'https://static.wixstatic.com/media/c418c8_06f60772399a489193a730c7da4dd1c0~mv2.png?originWidth=384&originHeight=384'}
+                          alt={recording.itemName || 'Recording'}
+                          className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                        />
                       </div>
-                    </motion.div>
-                  );
-                })}
+                      <h2 className="font-heading text-2xl mb-2 text-foreground group-hover:text-primary transition-colors duration-300">
+                        {recording.itemName}
+                      </h2>
+                      {recording.releaseYear && (
+                        <p className="text-sm text-foreground opacity-70">{recording.releaseYear}</p>
+                      )}
+                      <p className="text-sm text-foreground opacity-50 mt-3">
+                        {language === 'en' ? 'View Details' : '查看詳情'}
+                      </p>
+                    </Link>
+                  </motion.div>
+                ))}
               </div>
             )}
           </div>

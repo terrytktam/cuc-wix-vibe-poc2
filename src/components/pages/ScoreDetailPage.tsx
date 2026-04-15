@@ -4,7 +4,6 @@ import { motion } from 'framer-motion';
 import { Image } from '@/components/ui/image';
 import { LoadingSpinner } from '@/components/ui/loading-spinner';
 import { ExternalLink, Music } from 'lucide-react';
-import { useCart, useCurrency, formatPrice, DEFAULT_CURRENCY } from '@/integrations';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import { BaseCrudService } from '@/integrations';
@@ -18,8 +17,6 @@ export default function ScoreDetailPage() {
   const [score, setScore] = useState<SheetMusicCatalog | null>(null);
   const [song, setSong] = useState<Songs | null>(null);
   const [isLoading, setIsLoading] = useState(true);
-  const { addingItemId, actions } = useCart();
-  const { currency } = useCurrency();
   const { language } = useLanguageStore();
   useSEO('sheet-music');
 
@@ -45,8 +42,6 @@ export default function ScoreDetailPage() {
       setIsLoading(false);
     }
   };
-
-  const isAdding = addingItemId === score?._id;
 
   return (
     <div className="min-h-screen bg-background text-foreground font-paragraph">
@@ -182,29 +177,13 @@ export default function ScoreDetailPage() {
                     </motion.div>
                   )}
 
-                  <div className="border-t border-b border-muted-grey py-8 mb-8">
-                    <p className="text-4xl font-heading text-primary mb-6">
-                      {formatPrice(score.itemPrice || 0, currency ?? DEFAULT_CURRENCY)}
-                    </p>
-                    <button
-                      onClick={() => actions.addToCart({ 
-                        collectionId: 'scores', 
-                        itemId: score._id 
-                      })}
-                      disabled={isAdding}
-                      className="w-full bg-primary text-primary-foreground px-8 py-4 text-lg font-medium transition-all duration-300 hover:bg-opacity-90 disabled:opacity-50"
-                    >
-                      {isAdding ? (language === 'en' ? 'Adding to Cart...' : '添加到購物車中...') : (language === 'en' ? 'Add to Cart' : '加入購物車')}
-                    </button>
-                  </div>
-
-                  <div className="space-y-4">
+                  <div className="space-y-4 mt-8">
                     {score.previewUrl && (
                       <a
                         href={score.previewUrl}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="flex items-center justify-center gap-2 bg-transparent text-foreground border border-foreground px-6 py-3 text-lg transition-all duration-300 hover:bg-foreground hover:text-background w-full"
+                        className="flex items-center justify-center gap-2 bg-primary text-primary-foreground px-6 py-3 text-lg font-medium transition-all duration-300 hover:bg-opacity-90 w-full"
                       >
                         {language === 'en' ? 'Preview Score' : '預覽樂譜'}
                         <ExternalLink size={18} />
@@ -218,6 +197,17 @@ export default function ScoreDetailPage() {
                         className="flex items-center justify-center gap-2 bg-transparent text-foreground border border-foreground px-6 py-3 text-lg transition-all duration-300 hover:bg-foreground hover:text-background w-full"
                       >
                         {language === 'en' ? 'Listen to Demo' : '聆聽示範'}
+                        <ExternalLink size={18} />
+                      </a>
+                    )}
+                    {score.itemUrl && (
+                      <a
+                        href={score.itemUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="flex items-center justify-center gap-2 bg-transparent text-foreground border border-foreground px-6 py-3 text-lg transition-all duration-300 hover:bg-foreground hover:text-background w-full"
+                      >
+                        {language === 'en' ? 'Order Now' : '立即訂購'}
                         <ExternalLink size={18} />
                       </a>
                     )}
