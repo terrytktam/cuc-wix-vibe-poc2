@@ -26,10 +26,7 @@ export default function EventDetailPage() {
 
   const loadEvent = async () => {
     try {
-      const data = await BaseCrudService.getById<Events>('events', id!, {
-        multiRef: ['contributors', 'mentions', 'biographies'],
-        singleRef: ['relations']
-      });
+      const data = await BaseCrudService.getById<Events>('events', id!);
       setEvent(data);
     } catch (error) {
       console.error('Error loading event:', error);
