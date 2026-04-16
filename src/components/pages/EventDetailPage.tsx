@@ -309,10 +309,10 @@ export default function EventDetailPage() {
                           {event.relations.map((relation) => (
                             <div key={relation._id} className="pb-4 border-b border-muted-grey last:border-b-0">
                               <p className="text-lg font-medium">
-                                {language === 'en' ? event.relations.masterTitleEn : event.relations.masterTitleZh || event.relations.masterTitleEn}
+                                {language === 'en' ? relation.masterTitleEn : relation.masterTitleZh || relation.masterTitleEn}
                               </p>
                               <p className="text-base text-foreground opacity-75">
-                                {language === 'en' ? 'Related to' : '相關於'}: {language === 'en' ? event.relations.childTitleEn : event.relations.childTitleZh || event.relations.childTitleEn}
+                                {language === 'en' ? 'Related to' : '相關於'}: {language === 'en' ? relation.childTitleEn : relation.childTitleZh || relation.childTitleEn}
                               </p>
                             </div>
                           ))}
