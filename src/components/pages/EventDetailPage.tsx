@@ -78,7 +78,7 @@ export default function EventDetailPage() {
                     />
                   </div>
 
-                  {language === 'en' ? event.presentsEn : event.presentsZh || event.presentsEn ? (
+                  {(language === 'en' ? event.presentsEn : event.presentsZh || event.presentsEn) ? (
                     <p className="text-lg text-primary mb-4">
                       {language === 'en' ? event.presentsEn : event.presentsZh || event.presentsEn}
                     </p>
@@ -88,14 +88,14 @@ export default function EventDetailPage() {
                     {language === 'en' ? event.titleEn : event.titleZh || event.titleEn}
                   </h1>
                   
-                  {language === 'en' ? event.subtitleEn : event.subtitleZh || event.subtitleEn ? (
+                  {(language === 'en' ? event.subtitleEn : event.subtitleZh || event.subtitleEn) ? (
                     <p className="text-2xl mb-8 text-foreground opacity-80">
                       {language === 'en' ? event.subtitleEn : event.subtitleZh || event.subtitleEn}
                     </p>
                   ) : null}
 
                   <div className="flex flex-wrap gap-6 mb-8">
-                    {language === 'en' ? event.dateTimeVenue_en : event.dateTimeVenue_zh || event.dateTimeVenue_en ? (
+                    {(language === 'en' ? event.dateTimeVenue_en : event.dateTimeVenue_zh || event.dateTimeVenue_en) ? (
                       <div 
                         className="text-lg"
                         dangerouslySetInnerHTML={{ __html: language === 'en' ? event.dateTimeVenue_en || '' : event.dateTimeVenue_zh || event.dateTimeVenue_en || '' }}
@@ -103,13 +103,13 @@ export default function EventDetailPage() {
                     ) : null}
                   </div>
 
-                  {language === 'en' ? event.natureEn : event.natureZh || event.natureEn ? (
+                  {(language === 'en' ? event.natureEn : event.natureZh || event.natureEn) ? (
                     <p className="text-base mb-4">
                       <span className="text-primary">{language === 'en' ? 'Nature' : '性質'}:</span> {language === 'en' ? event.natureEn : event.natureZh || event.natureEn}
                     </p>
                   ) : null}
 
-                  {language === 'en' ? event.coOrganizersEn : event.coOrganizersZh || event.coOrganizersEn ? (
+                  {(language === 'en' ? event.coOrganizersEn : event.coOrganizersZh || event.coOrganizersEn) ? (
                     <p className="text-base mb-4">
                       <span className="text-primary">{language === 'en' ? 'Co-organizers' : '共同組織者'}:</span> {language === 'en' ? event.coOrganizersEn : event.coOrganizersZh || event.coOrganizersEn}
                     </p>
@@ -123,7 +123,7 @@ export default function EventDetailPage() {
                   className="grid grid-cols-1 lg:grid-cols-3 gap-12"
                 >
                   <div className="lg:col-span-2 space-y-12">
-                    {language === 'en' ? event.introduction_en : event.introduction_zh || event.introduction_en ? (
+                    {(language === 'en' ? event.introduction_en : event.introduction_zh || event.introduction_en) ? (
                       <div>
                         <h2 className="font-heading text-4xl mb-6 text-foreground">
                           {language === 'en' ? 'Introduction' : '介紹'}
@@ -135,7 +135,7 @@ export default function EventDetailPage() {
                       </div>
                     ) : null}
 
-                    {language === 'en' ? event.targets_en : event.targets_zh || event.targets_en ? (
+                    {(language === 'en' ? event.targets_en : event.targets_zh || event.targets_en) ? (
                       <div>
                         <h2 className="font-heading text-4xl mb-6 text-foreground">
                           {language === 'en' ? 'Target Audience' : '目標受眾'}
@@ -147,7 +147,7 @@ export default function EventDetailPage() {
                       </div>
                     ) : null}
 
-                    {language === 'en' ? event.courseContent_en : event.courseContent_zh || event.courseContent_en ? (
+                    {(language === 'en' ? event.courseContent_en : event.courseContent_zh || event.courseContent_en) ? (
                       <div>
                         <h2 className="font-heading text-4xl mb-6 text-foreground">
                           {language === 'en' ? 'Course Content' : '課程內容'}
@@ -159,7 +159,7 @@ export default function EventDetailPage() {
                       </div>
                     ) : null}
 
-                    {language === 'en' ? event.setPieces_en : event.setPieces_zh || event.setPieces_en ? (
+                    {(language === 'en' ? event.setPieces_en : event.setPieces_zh || event.setPieces_en) ? (
                       <div>
                         <h2 className="font-heading text-4xl mb-6 text-foreground">
                           {language === 'en' ? 'Set Pieces' : '指定曲目'}
@@ -322,7 +322,7 @@ export default function EventDetailPage() {
                   </div>
 
                   <div className="space-y-8">
-                    {language === 'en' ? event.price_en : event.price_zh || event.price_en ? (
+                    {(language === 'en' ? event.price_en : event.price_zh || event.price_en) ? (
                       <div className="border border-muted-grey p-6">
                         <h3 className="font-heading text-2xl mb-4 text-primary">
                           {language === 'en' ? 'Price' : '價格'}
@@ -334,7 +334,7 @@ export default function EventDetailPage() {
                       </div>
                     ) : null}
 
-                    {language === 'en' ? event.quotaDeadline_en : event.quotaDeadline_zh || event.quotaDeadline_en ? (
+                    {(language === 'en' ? event.quotaDeadline_en : event.quotaDeadline_zh || event.quotaDeadline_en) ? (
                       <div className="border border-muted-grey p-6">
                         <h3 className="font-heading text-2xl mb-4 text-primary">
                           {language === 'en' ? 'Deadline' : '截止日期'}
@@ -346,7 +346,7 @@ export default function EventDetailPage() {
                       </div>
                     ) : null}
 
-                    {language === 'en' ? event.applicationMethod_en : event.applicationMethod_zh || event.applicationMethod_en ? (
+                    {(language === 'en' ? event.applicationMethod_en : event.applicationMethod_zh || event.applicationMethod_en) ? (
                       <div className="border border-muted-grey p-6">
                         <h3 className="font-heading text-2xl mb-4 text-primary">
                           {language === 'en' ? 'Application' : '申請'}
@@ -358,7 +358,7 @@ export default function EventDetailPage() {
                       </div>
                     ) : null}
 
-                    {language === 'en' ? event.concessionDiscount_en : event.concessionDiscount_zh || event.concessionDiscount_en ? (
+                    {(language === 'en' ? event.concessionDiscount_en : event.concessionDiscount_zh || event.concessionDiscount_en) ? (
                       <div className="border border-muted-grey p-6">
                         <h3 className="font-heading text-2xl mb-4 text-primary">
                           {language === 'en' ? 'Concession Discount' : '優惠折扣'}
@@ -370,7 +370,7 @@ export default function EventDetailPage() {
                       </div>
                     ) : null}
 
-                    {language === 'en' ? event.enquiry_en : event.enquiry_zh || event.enquiry_en ? (
+                    {(language === 'en' ? event.enquiry_en : event.enquiry_zh || event.enquiry_en) ? (
                       <div className="border border-muted-grey p-6">
                         <h3 className="font-heading text-2xl mb-4 text-primary">
                           {language === 'en' ? 'Enquiry' : '查詢'}
@@ -382,7 +382,7 @@ export default function EventDetailPage() {
                       </div>
                     ) : null}
 
-                    {language === 'en' ? event.remark_en : event.remark_zh || event.remark_en ? (
+                    {(language === 'en' ? event.remark_en : event.remark_zh || event.remark_en) ? (
                       <div className="border border-muted-grey p-6">
                         <h3 className="font-heading text-2xl mb-4 text-primary">
                           {language === 'en' ? 'Remarks' : '備註'}
