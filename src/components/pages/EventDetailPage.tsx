@@ -30,8 +30,8 @@ export default function EventDetailPage() {
       const foundEvent = result.items.find(e => e.eventCode === code);
       if (foundEvent) {
         const data = await BaseCrudService.getById<Events>('events', foundEvent._id, {
-          singleRef: ['series', 'biographies', 'contributors', 'mentions', 'relations'],
-          multiRef: []
+          singleRef: ['series'],
+          multiRef: ['contributors', 'mentions', 'biographies', 'relations']
         });
         setEvent(data);
       }
@@ -292,7 +292,7 @@ export default function EventDetailPage() {
                     )}
 
                     {/* Relations Section */}
-                    {event.relations && (
+                    {event.relations && event.relations.length > 0 && (
                       <motion.div
                         initial={{ opacity: 0, y: 20 }}
                         animate={{ opacity: 1, y: 0 }}
@@ -306,14 +306,16 @@ export default function EventDetailPage() {
                           </h2>
                         </div>
                         <div className="space-y-4">
-                          <div className="pb-4 border-b border-muted-grey last:border-b-0">
-                            <p className="text-lg font-medium">
-                              {language === 'en' ? event.relations.masterTitleEn : event.relations.masterTitleZh || event.relations.masterTitleEn}
-                            </p>
-                            <p className="text-base text-foreground opacity-75">
-                              {language === 'en' ? 'Related to' : '相關於'}: {language === 'en' ? event.relations.childTitleEn : event.relations.childTitleZh || event.relations.childTitleEn}
-                            </p>
-                          </div>
+                          {event.relations.map((relation) => (
+                            <div key={relation._id} className="pb-4 border-b border-muted-grey last:border-b-0">
+                              <p className="text-lg font-medium">
+                                {language === 'en' ? event.relations.masterTitleEn : event.relations.masterTitleZh || event.relations.masterTitleEn}
+                              </p>
+                              <p className="text-base text-foreground opacity-75">
+                                {language === 'en' ? 'Related to' : '相關於'}: {language === 'en' ? event.relations.childTitleEn : event.relations.childTitleZh || event.relations.childTitleEn}
+                              </p>
+                            </div>
+                          ))}
                         </div>
                       </motion.div>
                     )}
