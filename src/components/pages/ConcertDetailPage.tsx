@@ -12,24 +12,28 @@ import { useLanguageStore } from '@/lib/languageStore';
 import { useSEO } from '@/hooks/useSEO';
 
 export default function ConcertDetailPage() {
-  const { id } = useParams<{ id: string }>();
+  const { code } = useParams<{ code: string }>();
   const [concert, setConcert] = useState<Concerts | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const { language } = useLanguageStore();
   useSEO('upcoming-events');
 
   useEffect(() => {
-    if (id) {
+    if (code) {
       loadConcert();
     }
-  }, [id]);
+  }, [code]);
 
   const loadConcert = async () => {
     try {
-      const data = await BaseCrudService.getById<Concerts>('concerts', id!, {
-        multiRef: ['contributors', 'mentions', 'biographies', 'relations']
-      });
-      setConcert(data);
+      const result = await BaseCrudService.getAll<Concerts>('concerts', {}, { limit: 1000 });
+      const foundConcert = result.items.find(c => c.code === code);
+      if (foundConcert) {
+        const data = await BaseCrudService.getById<Concerts>('concerts', foundConcert._id, {
+          multiRef: ['contributors', 'mentions', 'biographies', 'relations']
+        });
+        setConcert(data);
+      }
     } catch (error) {
       console.error('Error loading concert:', error);
     } finally {

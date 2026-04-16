@@ -90,11 +90,11 @@ const router = createBrowserRouter([
             element: <PastEventsPage />,
           },
           {
-            path: "event/:id",
+            path: "event/:code",
             element: <EventDetailPage />,
           },
           {
-            path: "concert/:id",
+            path: "concert/:code",
             element: <ConcertDetailPage />,
           },
           {

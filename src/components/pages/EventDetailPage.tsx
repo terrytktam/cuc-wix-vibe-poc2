@@ -12,22 +12,29 @@ import { useLanguageStore } from '@/lib/languageStore';
 import { useSEO } from '@/hooks/useSEO';
 
 export default function EventDetailPage() {
-  const { id } = useParams<{ id: string }>();
+  const { code } = useParams<{ code: string }>();
   const [event, setEvent] = useState<Events | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const { language } = useLanguageStore();
   useSEO('upcoming-events');
 
   useEffect(() => {
-    if (id) {
+    if (code) {
       loadEvent();
     }
-  }, [id]);
+  }, [code]);
 
   const loadEvent = async () => {
     try {
-      const data = await BaseCrudService.getById<Events>('events', id!);
-      setEvent(data);
+      const result = await BaseCrudService.getAll<Events>('events', {}, { limit: 1000 });
+      const foundEvent = result.items.find(e => e.eventCode === code);
+      if (foundEvent) {
+        const data = await BaseCrudService.getById<Events>('events', foundEvent._id, {
+          singleRef: ['series', 'biographies', 'contributors', 'mentions', 'relations'],
+          multiRef: []
+        });
+        setEvent(data);
+      }
     } catch (error) {
       console.error('Error loading event:', error);
     } finally {

@@ -84,6 +84,7 @@ export default function PastEventsPage() {
                   const venueEn = isEvent ? (item as Events).dateTimeVenueEn : (item as Concerts).venueEn;
                   const venueZh = isEvent ? (item as Events).dateTimeVenueZh : (item as Concerts).venueZh;
                   const venue = language === 'en' ? venueEn : venueZh;
+                  const id = isEvent ? (item as Events).eventCode : (item as Concerts).code;
                   const date = isEvent ? null : (item as Concerts).date;
                   
                   return (
@@ -94,7 +95,7 @@ export default function PastEventsPage() {
                       transition={{ duration: 0.6, delay: index * 0.1 }}
                     >
                       <Link 
-                        to={`/${language}/${isEvent ? 'event' : 'concert'}/${item._id}`}
+                        to={`/${language}/${isEvent ? 'event' : 'concert'}/${id}`}
                         className="group block"
                       >
                         <div className="relative aspect-[4/5] mb-6 overflow-hidden">
