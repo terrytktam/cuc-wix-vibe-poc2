@@ -102,15 +102,10 @@ export default function MembersPage() {
                               {language === 'en' ? member.nameEn : member.nameZh || member.nameEn}
                               {member.isLeader && (
                                 <span className="text-sm text-primary ml-2">
-                                  ({language === 'en' ? 'Leader' : '領導'})
+                                  ({language === 'en' ? 'Part leader' : '聲部長'})
                                 </span>
                               )}
                             </h3>
-                            {member.yearJoined && (
-                              <p className="text-sm text-foreground opacity-70">
-                                {language === 'en' ? 'Joined' : '加入'}: {member.yearJoined}
-                              </p>
-                            )}
                           </div>
                         ))}
                       </div>
