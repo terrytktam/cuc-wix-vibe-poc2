@@ -47,7 +47,7 @@ export default function MembersPage() {
     }
   };
 
-  // Define assistant roles
+  // Define assistant roles in order
   const assistantRoles = ['Music Director', 'Conductor', 'Vocal Coach', 'Pianist', 'Assistant Conductors'];
   
   // Separate regular members from assistant roles
@@ -60,13 +60,18 @@ export default function MembersPage() {
     members: members.filter(member => member.vocalType === vocalType.title)
   }));
 
-  // Group assistant members (5th column)
-  const assistantMembers = assistantVocalTypes.flatMap(vocalType => 
-    members.filter(member => member.vocalType === vocalType.title).map(member => ({
-      ...member,
-      roleDisplay: language === 'en' ? (vocalType.typeEn || vocalType.title || 'Other') : (vocalType.typeZh || vocalType.typeEn || vocalType.title || 'Other')
-    }))
-  );
+  // Group assistant members by role (5th column with subsections)
+  const groupedAssistantMembers = assistantRoles
+    .map(role => {
+      const vocalType = assistantVocalTypes.find(vt => vt.title === role);
+      if (!vocalType) return null;
+      
+      return {
+        title: language === 'en' ? (vocalType.typeEn || vocalType.title || role) : (vocalType.typeZh || vocalType.typeEn || vocalType.title || role),
+        members: members.filter(member => member.vocalType === role)
+      };
+    })
+    .filter(group => group && group.members.length > 0);
 
   return (
     <div className="min-h-screen bg-background text-foreground font-paragraph">
@@ -130,26 +135,32 @@ export default function MembersPage() {
                   )
                 ))}
 
-                {/* 5th column: Assistant roles */}
-                {assistantMembers.length > 0 && (
+                {/* 5th column: Assistant roles with subsections */}
+                {groupedAssistantMembers.length > 0 && (
                   <motion.div
                     initial={{ opacity: 0, y: 30 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.6, delay: groupedMembers.length * 0.1 }}
                     className="border border-muted-grey p-8"
                   >
-                    <h2 className="font-heading text-3xl mb-6 text-primary">
-                      {language === 'en' ? 'Staff' : '工作人員'}
+                    <h2 className="font-heading text-3xl mb-8 text-primary">
+                      {language === 'en' ? 'Assistants' : '助理'}
                     </h2>
-                    <div className="space-y-4">
-                      {assistantMembers.map((member) => (
-                        <div key={member._id} className="pb-4 border-b border-muted-grey last:border-b-0">
-                          <h3 className="text-lg font-medium mb-1">
-                            {language === 'en' ? member.nameEn : member.nameZh || member.nameEn}
+                    <div className="space-y-8">
+                      {groupedAssistantMembers.map((group) => (
+                        <div key={group.title} className="pb-6 border-b border-muted-grey last:border-b-0 last:pb-0">
+                          <h3 className="font-heading text-xl mb-4 text-primary">
+                            {group.title}
                           </h3>
-                          <p className="text-sm text-muted-grey">
-                            {member.roleDisplay}
-                          </p>
+                          <div className="space-y-3 pl-2">
+                            {group.members.map((member) => (
+                              <div key={member._id}>
+                                <p className="text-base font-medium">
+                                  {language === 'en' ? member.nameEn : member.nameZh || member.nameEn}
+                                </p>
+                              </div>
+                            ))}
+                          </div>
                         </div>
                       ))}
                     </div>
