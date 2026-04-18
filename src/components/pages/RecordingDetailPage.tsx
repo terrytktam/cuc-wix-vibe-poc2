@@ -164,7 +164,7 @@ export default function RecordingDetailPage() {
                     )}
                   </div>
 
-                  {language === 'en' ? recording.introduction_en : recording.introduction_zh || recording.introduction_en ? (
+                  {(language === 'en' ? recording.introduction_en : recording.introduction_zh || recording.introduction_en) ? (
                     <div className="mb-8">
                       <h2 className="font-heading text-3xl mb-4 text-foreground">
                         {language === 'en' ? 'About' : '關於'}
@@ -176,7 +176,7 @@ export default function RecordingDetailPage() {
                     </div>
                   ) : null}
 
-                  {language === 'en' ? recording.songlist_en : recording.songlist_zh || recording.songlist_en ? (
+                  {(language === 'en' ? recording.songlist_en : recording.songlist_zh || recording.songlist_en) ? (
                     <div className="mb-8">
                       <h2 className="font-heading text-3xl mb-4 text-foreground">
                         {language === 'en' ? 'Track List' : '曲目列表'}
@@ -188,7 +188,7 @@ export default function RecordingDetailPage() {
                     </div>
                   ) : null}
 
-                  {language === 'en' ? recording.recording_en : recording.recording_zh || recording.recording_en ? (
+                  {(language === 'en' ? recording.recording_en : recording.recording_zh || recording.recording_en) ? (
                     <div className="mb-8">
                       <h2 className="font-heading text-3xl mb-4 text-foreground">
                         {language === 'en' ? 'Recording Details' : '錄音詳情'}
