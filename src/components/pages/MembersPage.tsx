@@ -47,12 +47,12 @@ export default function MembersPage() {
     }
   };
 
-  // Define assistant roles in order
-  const assistantRoles = ['Music Director', 'Conductor', 'Vocal Coach', 'Pianist', 'Assistant Conductors'];
+  // Define leadership/support roles in order
+  const leadershipRoles = ['Music Director', 'Conductor', 'Vocal Coach', 'Pianist', 'Assistant Conductors'];
   
-  // Separate regular members from assistant roles
-  const regularVocalTypes = vocalTypes.filter(vt => !assistantRoles.includes(vt.title || ''));
-  const assistantVocalTypes = vocalTypes.filter(vt => assistantRoles.includes(vt.title || ''));
+  // Separate regular members from leadership roles
+  const regularVocalTypes = vocalTypes.filter(vt => !leadershipRoles.includes(vt.title || ''));
+  const leadershipVocalTypes = vocalTypes.filter(vt => leadershipRoles.includes(vt.title || ''));
 
   // Group regular members (first 4 columns)
   const groupedMembers = regularVocalTypes.map(vocalType => ({
@@ -60,10 +60,10 @@ export default function MembersPage() {
     members: members.filter(member => member.vocalType === vocalType.title)
   }));
 
-  // Group assistant members by role (5th column with subsections)
-  const groupedAssistantMembers = assistantRoles
+  // Group leadership members by role (5th column with subsections)
+  const groupedLeadershipMembers = leadershipRoles
     .map(role => {
-      const vocalType = assistantVocalTypes.find(vt => vt.title === role);
+      const vocalType = leadershipVocalTypes.find(vt => vt.title === role);
       if (!vocalType) return null;
       
       return {
@@ -135,8 +135,8 @@ export default function MembersPage() {
                   )
                 ))}
 
-                {/* 5th column: Assistant roles with subsections */}
-                {groupedAssistantMembers.length > 0 && (
+                {/* 5th column: Leadership roles with subsections */}
+                {groupedLeadershipMembers.length > 0 && (
                   <motion.div
                     initial={{ opacity: 0, y: 30 }}
                     animate={{ opacity: 1, y: 0 }}
@@ -144,10 +144,10 @@ export default function MembersPage() {
                     className="border border-muted-grey p-8"
                   >
                     <h2 className="font-heading text-3xl mb-8 text-primary">
-                      {language === 'en' ? 'Assistants' : '助理'}
+                      {language === 'en' ? 'Leadership' : '領導'}
                     </h2>
                     <div className="space-y-8">
-                      {groupedAssistantMembers.map((group) => (
+                      {groupedLeadershipMembers.map((group) => (
                         <div key={group.title} className="pb-6 border-b border-muted-grey last:border-b-0 last:pb-0">
                           <h3 className="font-heading text-xl mb-4 text-primary">
                             {group.title}
