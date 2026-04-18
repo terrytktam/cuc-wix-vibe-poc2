@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { Menu, X, Facebook, Instagram, Youtube, ShoppingCart } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useCart } from '@/integrations';
@@ -10,6 +10,7 @@ export default function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const { language, toggleLanguage } = useLanguageStore();
   const location = useLocation();
+  const navigate = useNavigate();
   const { itemCount, actions: cartActions } = useCart();
 
   const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
@@ -66,10 +67,9 @@ export default function Header() {
   const handleLanguageToggle = () => {
     const newLanguage = language === 'en' ? 'zh' : 'en';
     const newPath = buildLocalizedPath(cleanPath, newLanguage);
-    // Update store first, then navigate
+    // Update store first, then navigate using React Router
     toggleLanguage();
-    // Use router navigation instead of full page reload
-    window.location.href = newPath;
+    navigate(newPath);
   };
 
   return (
