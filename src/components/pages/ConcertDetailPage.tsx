@@ -77,7 +77,7 @@ export default function ConcertDetailPage() {
                     />
                   </div>
 
-                  {language === 'en' ? concert.presentsEn : concert.presentsZh || concert.presentsEn ? (
+                  {(language === 'en' ? concert.presentsEn : concert.presentsZh || concert.presentsEn) ? (
                     <p className="text-lg text-primary mb-4">
                       {language === 'en' ? concert.presentsEn : concert.presentsZh || concert.presentsEn}
                     </p>
@@ -87,7 +87,7 @@ export default function ConcertDetailPage() {
                     {language === 'en' ? concert.titleEn : concert.titleZh || concert.titleEn}
                   </h1>
                   
-                  {language === 'en' ? concert.subtitleEn : concert.subtitleZh || concert.subtitleEn ? (
+                  {(language === 'en' ? concert.subtitleEn : concert.subtitleZh || concert.subtitleEn) ? (
                     <p className="text-2xl mb-8 text-foreground opacity-80">
                       {language === 'en' ? concert.subtitleEn : concert.subtitleZh || concert.subtitleEn}
                     </p>
@@ -105,7 +105,7 @@ export default function ConcertDetailPage() {
                       </div>
                     )}
                     
-                    {language === 'en' ? concert.venueEn : concert.venueZh || concert.venueEn ? (
+                    {(language === 'en' ? concert.venueEn : concert.venueZh || concert.venueEn) ? (
                       <div className="flex items-center gap-2 text-lg">
                         <MapPin size={20} className="text-primary" />
                         <span>{language === 'en' ? concert.venueEn : concert.venueZh || concert.venueEn}</span>
@@ -113,7 +113,7 @@ export default function ConcertDetailPage() {
                     ) : null}
                   </div>
 
-                  {language === 'en' ? concert.natureEn : concert.natureZh || concert.natureEn ? (
+                  {(language === 'en' ? concert.natureEn : concert.natureZh || concert.natureEn) ? (
                     <p className="text-base mb-4">
                       <span className="text-primary">{language === 'en' ? 'Nature' : '性質'}:</span> {language === 'en' ? concert.natureEn : concert.natureZh || concert.natureEn}
                     </p>
@@ -127,7 +127,7 @@ export default function ConcertDetailPage() {
                   className="grid grid-cols-1 lg:grid-cols-3 gap-12"
                 >
                   <div className="lg:col-span-2 space-y-12">
-                    {language === 'en' ? concert.introduction_en : concert.introduction_zh || concert.introduction_en ? (
+                    {(language === 'en' ? concert.introduction_en : concert.introduction_zh || concert.introduction_en) ? (
                       <div>
                         <h2 className="font-heading text-4xl mb-6 text-foreground">
                           {language === 'en' ? 'Introduction' : '介紹'}
@@ -139,7 +139,7 @@ export default function ConcertDetailPage() {
                       </div>
                     ) : null}
 
-                    {language === 'en' ? concert.programme_en : concert.programme_zh || concert.programme_en ? (
+                    {(language === 'en' ? concert.programme_en : concert.programme_zh || concert.programme_en) ? (
                       <div>
                         <h2 className="font-heading text-4xl mb-6 text-foreground">
                           {language === 'en' ? 'Programme' : '節目'}
@@ -151,7 +151,7 @@ export default function ConcertDetailPage() {
                       </div>
                     ) : null}
 
-                    {language === 'en' ? concert.priceEn : concert.priceZh || concert.priceEn ? (
+                    {(language === 'en' ? concert.priceEn : concert.priceZh || concert.priceEn) ? (
                       <div className="border border-muted-grey p-8">
                         <h2 className="font-heading text-3xl mb-4 text-primary">
                           {language === 'en' ? 'Ticket Information' : '票務信息'}
@@ -160,7 +160,7 @@ export default function ConcertDetailPage() {
                           className="text-lg leading-relaxed space-y-4"
                           dangerouslySetInnerHTML={{ __html: language === 'en' ? (concert.priceEn || '') : (concert.priceZh || concert.priceEn || '') }}
                         />
-                        {language === 'en' ? concert.seatingEn : concert.seatingZh || concert.seatingEn ? (
+                        {(language === 'en' ? concert.seatingEn : concert.seatingZh || concert.seatingEn) ? (
                           <div 
                             className="text-base text-foreground opacity-80 mt-4"
                             dangerouslySetInnerHTML={{ __html: language === 'en' ? (concert.seatingEn || '') : (concert.seatingZh || concert.seatingEn || '') }}
@@ -169,7 +169,7 @@ export default function ConcertDetailPage() {
                       </div>
                     ) : null}
 
-                    {language === 'en' ? concert.concessionDiscount_en : concert.concessionDiscount_zh || concert.concessionDiscount_en ? (
+                    {(language === 'en' ? concert.concessionDiscount_en : concert.concessionDiscount_zh || concert.concessionDiscount_en) ? (
                       <div className="border border-muted-grey p-8">
                         <h2 className="font-heading text-3xl mb-4 text-primary">
                           {language === 'en' ? 'Concession Discount' : '優惠折扣'}
@@ -181,7 +181,7 @@ export default function ConcertDetailPage() {
                       </div>
                     ) : null}
 
-                    {language === 'en' ? concert.enquiry_en : concert.enquiry_zh || concert.enquiry_en ? (
+                    {(language === 'en' ? concert.enquiry_en : concert.enquiry_zh || concert.enquiry_en) ? (
                       <div className="border border-muted-grey p-8">
                         <h2 className="font-heading text-3xl mb-4 text-primary">
                           {language === 'en' ? 'Enquiry' : '查詢'}
@@ -193,7 +193,7 @@ export default function ConcertDetailPage() {
                       </div>
                     ) : null}
 
-                    {language === 'en' ? concert.remark_en : concert.remark_zh || concert.remark_en ? (
+                    {(language === 'en' ? concert.remark_en : concert.remark_zh || concert.remark_en) ? (
                       <div className="border border-muted-grey p-8">
                         <h2 className="font-heading text-3xl mb-4 text-primary">
                           {language === 'en' ? 'Remarks' : '備註'}
@@ -205,7 +205,7 @@ export default function ConcertDetailPage() {
                       </div>
                     ) : null}
 
-                    {language === 'en' ? concert.boxOfficeRemark_en : concert.boxOfficeRemark_zh || concert.boxOfficeRemark_en ? (
+                    {(language === 'en' ? concert.boxOfficeRemark_en : concert.boxOfficeRemark_zh || concert.boxOfficeRemark_en) ? (
                       <div className="border border-muted-grey p-8">
                         <h2 className="font-heading text-3xl mb-4 text-primary">
                           {language === 'en' ? 'Box Office Remarks' : '售票處備註'}
