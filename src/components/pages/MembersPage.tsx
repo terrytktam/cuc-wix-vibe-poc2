@@ -47,10 +47,26 @@ export default function MembersPage() {
     }
   };
 
-  const groupedMembers = vocalTypes.map(vocalType => ({
+  // Define assistant roles
+  const assistantRoles = ['Music Director', 'Conductor', 'Vocal Coach', 'Pianist', 'Assistant Conductors'];
+  
+  // Separate regular members from assistant roles
+  const regularVocalTypes = vocalTypes.filter(vt => !assistantRoles.includes(vt.title || ''));
+  const assistantVocalTypes = vocalTypes.filter(vt => assistantRoles.includes(vt.title || ''));
+
+  // Group regular members (first 4 columns)
+  const groupedMembers = regularVocalTypes.map(vocalType => ({
     type: language === 'en' ? (vocalType.typeEn || vocalType.title || 'Other') : (vocalType.typeZh || vocalType.typeEn || vocalType.title || 'Other'),
     members: members.filter(member => member.vocalType === vocalType.title)
   }));
+
+  // Group assistant members (5th column)
+  const assistantMembers = assistantVocalTypes.flatMap(vocalType => 
+    members.filter(member => member.vocalType === vocalType.title).map(member => ({
+      ...member,
+      roleDisplay: language === 'en' ? (vocalType.typeEn || vocalType.title || 'Other') : (vocalType.typeZh || vocalType.typeEn || vocalType.title || 'Other')
+    }))
+  );
 
   return (
     <div className="min-h-screen bg-background text-foreground font-paragraph">
@@ -82,7 +98,8 @@ export default function MembersPage() {
                 </p>
               </div>
             ) : (
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12">
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-12">
+                {/* First 4 columns: Regular vocal types */}
                 {groupedMembers.map((group, index) => (
                   group.members.length > 0 && (
                     <motion.div
@@ -112,6 +129,32 @@ export default function MembersPage() {
                     </motion.div>
                   )
                 ))}
+
+                {/* 5th column: Assistant roles */}
+                {assistantMembers.length > 0 && (
+                  <motion.div
+                    initial={{ opacity: 0, y: 30 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.6, delay: groupedMembers.length * 0.1 }}
+                    className="border border-muted-grey p-8"
+                  >
+                    <h2 className="font-heading text-3xl mb-6 text-primary">
+                      {language === 'en' ? 'Staff' : '工作人員'}
+                    </h2>
+                    <div className="space-y-4">
+                      {assistantMembers.map((member) => (
+                        <div key={member._id} className="pb-4 border-b border-muted-grey last:border-b-0">
+                          <h3 className="text-lg font-medium mb-1">
+                            {language === 'en' ? member.nameEn : member.nameZh || member.nameEn}
+                          </h3>
+                          <p className="text-sm text-muted-grey">
+                            {member.roleDisplay}
+                          </p>
+                        </div>
+                      ))}
+                    </div>
+                  </motion.div>
+                )}
               </div>
             )}
           </div>
