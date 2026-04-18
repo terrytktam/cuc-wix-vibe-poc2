@@ -24,6 +24,16 @@ import { useEffect } from 'react';
 
 // Layout component that includes ScrollToTop
 function Layout() {
+  return (
+    <>
+      <ScrollToTop />
+      <Outlet />
+    </>
+  );
+}
+
+// Language sync component for the :lang route
+function LanguageSyncLayout() {
   const location = useLocation();
   const { initializeLanguage } = useLanguageStore();
 
@@ -32,12 +42,7 @@ function Layout() {
     initializeLanguage(language);
   }, [location.pathname, initializeLanguage]);
 
-  return (
-    <>
-      <ScrollToTop />
-      <Outlet />
-    </>
-  );
+  return <Outlet />;
 }
 
 const router = createBrowserRouter([
@@ -52,7 +57,7 @@ const router = createBrowserRouter([
       },
       {
         path: ":lang",
-        element: <Layout />,
+        element: <LanguageSyncLayout />,
         children: [
           {
             index: true,
