@@ -67,9 +67,9 @@ export default function Header() {
   const handleLanguageToggle = () => {
     const newLanguage = language === 'en' ? 'zh' : 'en';
     const newPath = buildLocalizedPath(cleanPath, newLanguage);
-    // Update store first, then navigate using React Router
-    toggleLanguage();
+    // Navigate first, then update store
     navigate(newPath);
+    toggleLanguage();
   };
 
   return (

@@ -53,7 +53,7 @@ const router = createBrowserRouter([
     children: [
       {
         index: true,
-        element: <Navigate to="/en" replace />,
+        element: <Navigate to="/zh" replace />,
       },
       {
         path: ":lang",
@@ -134,7 +134,7 @@ const router = createBrowserRouter([
       },
       {
         path: "*",
-        element: <Navigate to="/en" replace />,
+        element: <Navigate to="/zh" replace />,
       },
     ],
   },
